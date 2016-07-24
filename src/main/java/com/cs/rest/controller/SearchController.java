@@ -48,9 +48,7 @@ public class SearchController {
 	}
 	
 	@RequestMapping("/login")
-	public String register (
-			@RequestParam(value = "username", defaultValue = "username") String username,
-			@RequestParam(value = "password", defaultValue = "password") String password	) 
+	public String register () 
 					throws MessagingException {
 		return "Wait This needs to be implemented";
 	}
