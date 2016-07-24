@@ -7,9 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.MessagingException;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -45,5 +47,20 @@ public class SearchController {
 	    return new ResponseEntity<List<User>>(profiles, httpHeaders,HttpStatus.OK);
 	}
 	
+	@RequestMapping("/login")
+	public String register (
+			@RequestParam(value = "username", defaultValue = "username") String username,
+			@RequestParam(value = "password", defaultValue = "password") String password	) 
+					throws MessagingException {
+		return "Wait This needs to be implemented";
+	}
+	
+	@RequestMapping("/test")
+	public List<User> getany (
+			@RequestParam(value = "s", defaultValue = "s") String s) 
+					throws MessagingException {
+		
+		return searchServices.searchProfiles(s);
+	}
 	
 }

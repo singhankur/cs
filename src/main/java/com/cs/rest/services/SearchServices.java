@@ -55,6 +55,17 @@ public class SearchServices {
 		
 		return outputlist;
 	}
+	
+	public List<User> searchProfiles(String slipnumber) {
+			
+			 vypariList = vypariRepository.findBySlipNumber(slipnumber);
+			 kisanList = kisanRepository.findBySlipNumber(slipnumber);
+			
+			 List<User> profiles = new ArrayList<>();
+			 profiles.addAll(vypariList);
+			 profiles.addAll(kisanList);
+			return profiles;
+	}
 
 	public List<User> searchProfiles(String slipnumber, String session_id) {
 		
