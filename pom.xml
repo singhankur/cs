@@ -168,7 +168,12 @@
 			<scope>test</scope>
 		</dependency>
 
-		
+		<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+	<dependency>
+   		 <groupId>com.google.code.gson</groupId>
+   	 	<artifactId>gson</artifactId>
+    	<version>2.7</version>
+	</dependency>
 
 		<!-- Mongo -->
 		<dependency>
@@ -198,30 +203,8 @@
 			<version>1.1.1</version>
 		</dependency>
 
-		<dependency>
-			<groupId>com.googlecode.json-simple</groupId>
-			<artifactId>json-simple</artifactId>
-		</dependency>
-
-		<!-- Jackson -->
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-core-asl</artifactId>
-			<version>${org.codehaus.jackson-version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-mapper-asl</artifactId>
-			<version>${org.codehaus.jackson-version}</version>
-		</dependency>
+	
+	
 
 		<!-- Apache Commons -->
 		<dependency>
@@ -250,20 +233,7 @@
 			<artifactId>poi</artifactId>
 			<version>3.12</version>
 		</dependency>
-		
-		<!-- JSON Processing -->
-		<dependency>
-			<groupId>javax.json</groupId>
-			<artifactId>javax.json-api</artifactId>
-			<version>1.0</version>
-			<scope>provided</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.glassfish</groupId>
-			<artifactId>javax.json</artifactId>
-			<version>1.0.4</version>
-		</dependency>
+	
 
 		<!-- Google API -->
 		<dependency>

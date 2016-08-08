@@ -23,7 +23,7 @@ public class VyapariServices {
 		vypari.setLastModifiedDate(new Date());
 		vypari.setMaintainedBy(newVypari.getMaintainedBy());
 		vypari.setSlipNumber(newVypari.getSlipNumber());
-		vypari.setVypariName((newVypari.getVypariName()));
+		vypari.setName((newVypari.getName()));
 		vypari.setFatherName(newVypari.getFatherName());
 		vypari.setLotNumber(newVypari.getLotNumber());
 		vypari.setPickupPrice(newVypari.getPickupPrice());
@@ -31,6 +31,9 @@ public class VyapariServices {
 		vypari.setMobile(newVypari.getMobile());
 		vypari.setNoOfPacket(newVypari.getNoOfPacket());
 		vypari.setAddress(newVypari.getAddress());
+		vypari.setTypeOfPotato(newVypari.getTypeOfPotato());
+		vypari.setProfileType(newVypari.getProfileType());
+		vypari.setTotalWeight(newVypari.getTotalWeight());
 		vypariRepository.save(vypari);
 		
 		return "Vypari Added Successfully";

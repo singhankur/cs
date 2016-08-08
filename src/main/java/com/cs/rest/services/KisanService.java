@@ -26,7 +26,7 @@ public class KisanService {
 		kisan.setLastModifiedDate(new Date());
 		kisan.setMaintainedBy(nweKisan.getMaintainedBy());
 		kisan.setSlipNumber(nweKisan.getSlipNumber());
-		kisan.setKisanName(nweKisan.getKisanName());
+		kisan.setName(nweKisan.getName());
 		kisan.setFatherName(nweKisan.getFatherName());
 		kisan.setLotNumber(nweKisan.getLotNumber());
 		kisan.setPickupPrice(nweKisan.getPickupPrice());
@@ -34,6 +34,9 @@ public class KisanService {
 		kisan.setMobile(nweKisan.getMobile());
 		kisan.setNoOfPacket(nweKisan.getNoOfPacket());
 		kisan.setAddress(nweKisan.getAddress());
+		kisan.setTypeOfPotato(nweKisan.getTypeOfPotato());
+		kisan.setProfileType(nweKisan.getProfileType());
+		kisan.setTotalWeight(nweKisan.getTotalWeight());
 		kisanRepository.save(kisan);
 		
 		return "Kisan Added Successfully";

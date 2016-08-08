@@ -12,7 +12,7 @@ public class Kisan implements User {
 
 	//For Future Reference
 	private String kisanid;
-	private String kisanName;
+	private String name;
 	private String fatherName; 
 	@Nonnull@Id
 	private String slipNumber;
@@ -26,6 +26,9 @@ public class Kisan implements User {
 	private Date lastModifiedDate;
 	private String maintainedBy;
 	private String session_id;
+	private String totalWeight;
+	private String typeOfPotato;
+	private String profileType;
 	
 	
 	public String getSession_id() {
@@ -58,11 +61,12 @@ public class Kisan implements User {
 	public void setKisanid(String kisanid) {
 		this.kisanid = kisanid;
 	}
-	public String getKisanName() {
-		return kisanName;
+	
+	public String getName() {
+		return name;
 	}
-	public void setKisanName(String kisanName) {
-		this.kisanName = kisanName;
+	public void setName(String name) {
+		this.name = name;
 	}
 	public String getFatherName() {
 		return fatherName;
@@ -111,6 +115,24 @@ public class Kisan implements User {
 	}
 	public void setMaintainedBy(String maintainedBy) {
 		this.maintainedBy = maintainedBy;
+	}
+	public String getTotalWeight() {
+		return totalWeight;
+	}
+	public void setTotalWeight(String totalWeight) {
+		this.totalWeight = totalWeight;
+	}
+	public String getTypeOfPotato() {
+		return typeOfPotato;
+	}
+	public void setTypeOfPotato(String typeOfPotato) {
+		this.typeOfPotato = typeOfPotato;
+	}
+	public String getProfileType() {
+		return profileType;
+	}
+	public void setProfileType(String profileType) {
+		this.profileType = profileType;
 	}
 	
 }

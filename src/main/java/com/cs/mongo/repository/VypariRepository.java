@@ -9,6 +9,6 @@ import com.cs.mongo.model.Vyapari;
 
 @Repository
 public interface VypariRepository  extends MongoRepository<Vyapari, String>{
-	List<Vyapari> findBySlipNumberLikeOrVypariNameLikeOrFatherNameLikeOrMobileLikeOrAddressLike(String slipNumber, String vypariName , String fatherName, String mobile, String address);
+	List<Vyapari> findBySlipNumberLikeOrNameLikeOrFatherNameLikeOrMobileLikeOrAddressLike(String slipNumber, String name , String fatherName, String mobile, String address);
 	List<Vyapari> findBySlipNumber(String slipNumber);
 }

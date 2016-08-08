@@ -13,7 +13,7 @@ public class Vyapari implements User{
 
 	//For Future Reference
 	private String vypariid;
-	private String vypariName;
+	private String name;
 	private String fatherName; 
 	@Nonnull@Id
 	private String slipNumber;
@@ -27,6 +27,10 @@ public class Vyapari implements User{
 	private Date lastModifiedDate;
 	private String maintainedBy;
 	private String session_id;
+	private String totalWeight;
+	private String typeOfPotato;
+	private String profileType;
+	
 	
 	
 	public String getSession_id() {
@@ -41,12 +45,6 @@ public class Vyapari implements User{
 	}
 	public void setVypariid(String vypariid) {
 		this.vypariid = vypariid;
-	}
-	public String getVypariName() {
-		return vypariName;
-	}
-	public void setVypariName(String vypariName) {
-		this.vypariName = vypariName;
 	}
 	public String getFatherName() {
 		return fatherName;
@@ -114,5 +112,29 @@ public class Vyapari implements User{
 	public void setMaintainedBy(String maintainedBy) {
 		this.maintainedBy = maintainedBy;
 	}
-
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getTotalWeight() {
+		return totalWeight;
+	}
+	public void setTotalWeight(String totalWeight) {
+		this.totalWeight = totalWeight;
+	}
+	public String getTypeOfPotato() {
+		return typeOfPotato;
+	}
+	public void setTypeOfPotato(String typeOfPotato) {
+		this.typeOfPotato = typeOfPotato;
+	}
+	public String getProfileType() {
+		return profileType;
+	}
+	public void setProfileType(String profileType) {
+		this.profileType = profileType;
+	}
+	
 }

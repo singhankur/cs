@@ -1,5 +1,6 @@
 package com.cs.rest.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +9,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.MessagingException;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,7 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cs.mongo.model.SearchParams;
 import com.cs.mongo.model.User;
 import com.cs.rest.services.SearchServices;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+@CrossOrigin
 @RestController
 public class SearchController {
 
@@ -35,15 +40,22 @@ public class SearchController {
 	    	searchResult = searchServices.search(searchParams);
 	    }
 	    HttpHeaders httpHeaders = new HttpHeaders();
+//	    httpHeaders.add("Access-Control-Allow-Origin", "*");	
+//	    httpHeaders.add("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");			
+	 //   httpHeaders.add("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, X-Codingpedia");
 	    return new ResponseEntity<List<SearchParams>>(searchResult, httpHeaders,HttpStatus.OK);
 	}
 	
+	@CrossOrigin
 	@RequestMapping(value = "/profile", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<List<User>> getTest(@RequestBody Map<String, String> json) {
+	public ResponseEntity<List<User>> getTest(@RequestBody String json) {
 	
-		profiles = searchServices.searchProfiles(json.get("slipNumber"),json.get("session_id"));
+		Map<String, String> retMap = new Gson().fromJson(json, new TypeToken<HashMap<String, Object>>() {}.getType());
+
+		profiles = searchServices.searchProfiles(retMap.get("slipNumber"),retMap.get("session_id"));
 	    HttpHeaders httpHeaders = new HttpHeaders();
+	 
 	    return new ResponseEntity<List<User>>(profiles, httpHeaders,HttpStatus.OK);
 	}
 	

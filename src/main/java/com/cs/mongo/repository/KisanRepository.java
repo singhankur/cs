@@ -11,6 +11,6 @@ import com.cs.mongo.model.Kisan;
 @Repository
 public interface KisanRepository  extends MongoRepository<Kisan, String>{
 	
-	List<Kisan> findBySlipNumberLikeOrKisanNameLikeOrFatherNameLikeOrMobileLikeOrAddressLike(String slipNumber, String kisanName , String fatherName, String mobile, String address);
+	List<Kisan> findBySlipNumberLikeOrNameLikeOrFatherNameLikeOrMobileLikeOrAddressLike(String slipNumber, String name , String fatherName, String mobile, String address);
 	List<Kisan> findBySlipNumber(String slipNumber);
 }

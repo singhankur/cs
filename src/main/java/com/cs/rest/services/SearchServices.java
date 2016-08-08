@@ -28,8 +28,8 @@ public class SearchServices {
 	public List<SearchParams> search(SearchParams searchParams) {
 
 		outputlist = new ArrayList<>();
-		vypariList = vypariRepository.findBySlipNumberLikeOrVypariNameLikeOrFatherNameLikeOrMobileLikeOrAddressLike( searchParams.getSlipNumber(),  searchParams.getName() ,  searchParams.getFatherName(),  searchParams.getMobile(),searchParams.getAddress());
-		kisanList = kisanRepository.findBySlipNumberLikeOrKisanNameLikeOrFatherNameLikeOrMobileLikeOrAddressLike( searchParams.getSlipNumber(),  searchParams.getName() ,  searchParams.getFatherName(),  searchParams.getMobile(),searchParams.getAddress());
+		vypariList = vypariRepository.findBySlipNumberLikeOrNameLikeOrFatherNameLikeOrMobileLikeOrAddressLike( searchParams.getSlipNumber(),  searchParams.getName() ,  searchParams.getFatherName(),  searchParams.getMobile(),searchParams.getAddress());
+		kisanList = kisanRepository.findBySlipNumberLikeOrNameLikeOrFatherNameLikeOrMobileLikeOrAddressLike( searchParams.getSlipNumber(),  searchParams.getName() ,  searchParams.getFatherName(),  searchParams.getMobile(),searchParams.getAddress());
 
 		for(Kisan k : kisanList){
 			SearchParams ss = new SearchParams();
@@ -37,7 +37,7 @@ public class SearchServices {
 			ss.setAddress(k.getAddress());
 			ss.setFatherName(k.getFatherName());
 			ss.setMobile(k.getMobile());
-			ss.setName(k.getKisanName());
+			ss.setName(k.getName());
 			ss.setSlipNumber(k.getSlipNumber());
 			outputlist.add(ss);
 		}
@@ -47,7 +47,7 @@ public class SearchServices {
 			ss.setAddress(v.getAddress());
 			ss.setFatherName(v.getFatherName());
 			ss.setMobile(v.getMobile());
-			ss.setName(v.getVypariName());
+			ss.setName(v.getName());
 			ss.setSlipNumber(v.getSlipNumber());
 			outputlist.add(ss);
 		}
