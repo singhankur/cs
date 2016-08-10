@@ -91,6 +91,7 @@ public class SearchServices {
 			ss.setMobile(entry.getValue().getMobile());
 			ss.setName(entry.getValue().getName());
 			ss.setSlipNumber(entry.getValue().getSlipNumber());
+			ss.setNoOfPacket(entry.getValue().getNoOfPacket());
 			outputlist.add(ss);
 		}
 		
@@ -104,6 +105,7 @@ public class SearchServices {
 			ss.setMobile(entry.getValue().getMobile());
 			ss.setName(entry.getValue().getName());
 			ss.setSlipNumber(entry.getValue().getSlipNumber());
+			ss.setNoOfPacket(entry.getValue().getNoOfPacket());
 			outputlist.add(ss);
 		}
 		

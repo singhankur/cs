@@ -9,7 +9,15 @@ public class SearchParams {
 	private String address;
 	private String session_id;
 	private String typeUser;
+	private String noOfPacket;
 	
+	
+	public String getNoOfPacket() {
+		return noOfPacket;
+	}
+	public void setNoOfPacket(String noOfPacket) {
+		this.noOfPacket = noOfPacket;
+	}
 	public String getTypeUser() {
 		return typeUser;
 	}
