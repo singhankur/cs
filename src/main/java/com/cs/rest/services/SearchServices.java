@@ -1,7 +1,10 @@
 package com.cs.rest.services;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,42 +28,112 @@ public class SearchServices {
 	List<Kisan> kisanList;
 	List<SearchParams> outputlist;
 	
+	Map<String, Kisan> kisanMap;
+	Map<String, Vyapari> vypariMap;
+	
+	
+	
 	public List<SearchParams> search(SearchParams searchParams) {
 
 		outputlist = new ArrayList<>();
+		kisanMap = new HashMap<>();
+		vypariMap = new HashMap<>();
+		
+		if(!StringUtils.isEmpty(searchParams.getSlipNumber())){
+			vypariList = vypariRepository.findBySlipNumberLike(searchParams.getSlipNumber());
+			kisanList = kisanRepository.findBySlipNumberLike(searchParams.getSlipNumber());
+			addSearchOutput();
+		}
+			
+		
+		if(!StringUtils.isEmpty(searchParams.getName())){
+			vypariList = vypariRepository.findByNameLike(searchParams.getName());
+			kisanList = kisanRepository.findByNameLike(searchParams.getName());
+			addSearchOutput();
+		}
+			
+		
+		if(!StringUtils.isEmpty(searchParams.getFatherName())){
+			vypariList = vypariRepository.findByFatherNameLike(searchParams.getFatherName());
+			kisanList = kisanRepository.findByFatherNameLike(searchParams.getFatherName());
+			addSearchOutput();
+		}
+			
+		
+		if(!StringUtils.isEmpty(searchParams.getMobile())){
+			vypariList = vypariRepository.findByMobileLike(searchParams.getMobile());
+			kisanList = kisanRepository.findByMobileLike(searchParams.getMobile());
+			addSearchOutput();
+		}
+			
+		
+		if(!StringUtils.isEmpty(searchParams.getAddress())){
+			vypariList = vypariRepository.findByAddressLike(searchParams.getAddress());
+			kisanList = kisanRepository.findByAddressLike(searchParams.getAddress());
+			addSearchOutput();
+		}
+			
+		
 		vypariList = vypariRepository.findBySlipNumberLikeOrNameLikeOrFatherNameLikeOrMobileLikeOrAddressLike( searchParams.getSlipNumber(),  searchParams.getName() ,  searchParams.getFatherName(),  searchParams.getMobile(),searchParams.getAddress());
 		kisanList = kisanRepository.findBySlipNumberLikeOrNameLikeOrFatherNameLikeOrMobileLikeOrAddressLike( searchParams.getSlipNumber(),  searchParams.getName() ,  searchParams.getFatherName(),  searchParams.getMobile(),searchParams.getAddress());
 
-		for(Kisan k : kisanList){
-			SearchParams ss = new SearchParams();
-			ss.setTypeUser("kisan");
-			ss.setAddress(k.getAddress());
-			ss.setFatherName(k.getFatherName());
-			ss.setMobile(k.getMobile());
-			ss.setName(k.getName());
-			ss.setSlipNumber(k.getSlipNumber());
-			outputlist.add(ss);
-		}
-		for(Vyapari v : vypariList){
-			SearchParams ss = new SearchParams();
-			ss.setTypeUser("Vyapari");
-			ss.setAddress(v.getAddress());
-			ss.setFatherName(v.getFatherName());
-			ss.setMobile(v.getMobile());
-			ss.setName(v.getName());
-			ss.setSlipNumber(v.getSlipNumber());
-			outputlist.add(ss);
-		}
-		
-		
+
+		vypariFinalResult();kisanFinalResult();
 		return outputlist;
 	}
+
+	private void vypariFinalResult() {
+		for(Entry<String, Vyapari> entry :  vypariMap.entrySet()){
+			SearchParams ss = new SearchParams();
+			ss.setTypeUser(entry.getValue().getProfileType());
+			ss.setAddress(entry.getValue().getAddress());
+			ss.setFatherName(entry.getValue().getFatherName());
+			ss.setMobile(entry.getValue().getMobile());
+			ss.setName(entry.getValue().getName());
+			ss.setSlipNumber(entry.getValue().getSlipNumber());
+			outputlist.add(ss);
+		}
+		
+	}
+	private void kisanFinalResult() {
+		for(Entry<String, Kisan> entry :  kisanMap.entrySet()){
+			SearchParams ss = new SearchParams();
+			ss.setTypeUser(entry.getValue().getProfileType());
+			ss.setAddress(entry.getValue().getAddress());
+			ss.setFatherName(entry.getValue().getFatherName());
+			ss.setMobile(entry.getValue().getMobile());
+			ss.setName(entry.getValue().getName());
+			ss.setSlipNumber(entry.getValue().getSlipNumber());
+			outputlist.add(ss);
+		}
+		
+	}
+
+	private void addSearchOutput() {
+		aadVypariListToMap(vypariList);
+		aadKisanListToMap(kisanList);
+		System.out.println(vypariList);
+		System.out.println(kisanList);
+		kisanList.clear();
+		vypariList.clear();
+	}
 	
+	private void aadVypariListToMap(List<Vyapari> tempvypariList) {
+		for(Vyapari v : tempvypariList){
+			vypariMap.put(v.getSlipNumber(),v);
+		}
+	}
+	
+	private void aadKisanListToMap(List<Kisan> tempKisanList) {
+		for(Kisan k : tempKisanList){
+			kisanMap.put(k.getSlipNumber(),k);
+		}
+	
+	}
+
 	public List<User> searchProfiles(String slipnumber) {
-			
 			 vypariList = vypariRepository.findBySlipNumber(slipnumber);
 			 kisanList = kisanRepository.findBySlipNumber(slipnumber);
-			
 			 List<User> profiles = new ArrayList<>();
 			 profiles.addAll(vypariList);
 			 profiles.addAll(kisanList);
