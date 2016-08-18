@@ -1,10 +1,13 @@
 package com.cs.rest.services;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+
 import com.cs.mongo.model.Vyapari;
 import com.cs.mongo.repository.VypariRepository;
 
@@ -37,6 +40,20 @@ public class VyapariServices {
 		vypariRepository.save(vypari);
 		
 		return "Vypari Added Successfully";
+	}
+	
+	public List<String> getAllVypari() {
+		List<Vyapari> vypari = vypariRepository.findAll();
+		List<String> vypariNameList = new ArrayList<>();
+		for (Vyapari v : vypari) {
+			vypariNameList.add(v.getName());
+		}
+		return vypariNameList;
+	}
+	
+	public Vyapari getVypari(String slipNumber){
+		List<Vyapari> vypariList = vypariRepository.findBySlipNumber(slipNumber);
+		return vypariList.get(0);
 	}
 
 }

@@ -1,4 +1,4 @@
-package com.cs.mongo.model;
+package com.cs.request.models;
 
 public class SearchParams {
 

@@ -1,5 +1,7 @@
 package com.cs.rest.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -29,10 +31,14 @@ public class VyapariController {
 			    	sttus = vyapariServices.addvypari(vyapari);
 			    }
 			    HttpHeaders httpHeaders = new HttpHeaders();
-			   
 			    return new ResponseEntity<String>(sttus, httpHeaders,HttpStatus.OK);
 			}
-
+			
+			@CrossOrigin
+			@RequestMapping(value = "/getEnlistedVyaparis", method = RequestMethod.GET)
+			public List<String>  getEnlistedVyaparis() {
+			    return vyapariServices.getAllVypari();
+			}
 			
 			
 }

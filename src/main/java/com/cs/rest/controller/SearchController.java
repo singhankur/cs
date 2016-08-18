@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cs.mongo.model.SearchParams;
 import com.cs.mongo.model.User;
+import com.cs.request.models.SearchParams;
 import com.cs.rest.services.SearchServices;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -35,14 +35,10 @@ public class SearchController {
 	
 	@RequestMapping(value = "/search", method = RequestMethod.POST)
 	public ResponseEntity<List<SearchParams>> search(@RequestBody SearchParams searchParams) {
-		
 	    if (searchParams != null) {
 	    	searchResult = searchServices.search(searchParams);
 	    }
 	    HttpHeaders httpHeaders = new HttpHeaders();
-//	    httpHeaders.add("Access-Control-Allow-Origin", "*");	
-//	    httpHeaders.add("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");			
-	 //   httpHeaders.add("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, X-Codingpedia");
 	    return new ResponseEntity<List<SearchParams>>(searchResult, httpHeaders,HttpStatus.OK);
 	}
 	
@@ -69,7 +65,6 @@ public class SearchController {
 	public List<User> getany (
 			@RequestParam(value = "s", defaultValue = "s") String s) 
 					throws MessagingException {
-		
 		return searchServices.searchProfiles(s);
 	}
 	

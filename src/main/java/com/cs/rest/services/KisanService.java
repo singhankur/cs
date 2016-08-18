@@ -1,6 +1,7 @@
 package com.cs.rest.services;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,7 +43,8 @@ public class KisanService {
 		return "Kisan Added Successfully";
 	}
 	
-
-	
-	
+	public Kisan getKisan(String slipNumber){
+		List<Kisan> kisanList =  kisanRepository.findBySlipNumber(slipNumber);
+		return kisanList.get(0);
+	}
 }

@@ -11,11 +11,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.cs.mongo.model.Kisan;
-import com.cs.mongo.model.SearchParams;
 import com.cs.mongo.model.User;
 import com.cs.mongo.model.Vyapari;
 import com.cs.mongo.repository.KisanRepository;
 import com.cs.mongo.repository.VypariRepository;
+import com.cs.request.models.SearchParams;
 
 @Service
 public class SearchServices {
