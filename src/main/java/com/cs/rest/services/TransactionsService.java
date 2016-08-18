@@ -67,6 +67,7 @@ public class TransactionsService {
 	
 
 	private void saveTransaction(TransactionsParams transaction) {
+		System.out.println("Never Here");
 		Transactions trans = new Transactions();
 		trans.setSlipNumber(transaction.getSlipNumber());
 		trans.setTransactionID(counterService.getNextSequence(ApplicationConstants.TRANSACTION_COLLECTION));
@@ -75,12 +76,14 @@ public class TransactionsService {
 		trans.setPacketTaken(Integer.parseInt(transaction.getPacketTaken()));
 		trans.setBuyer(transaction.getBuyer());
 		trans.setCreatedDate(new Date());
+		System.out.println("Hows Here");
 		transactionsRepository.save(trans);
 	}
 
 
 
 	private Integer getReaminingPacket(String noOfPacket, String slipNumber) {
+		System.out.println("here in packet");
 		List<Transactions> allTransaction = getAllPreviousTransaction(slipNumber);
 		int remainingPacket = 0;
 		int packetTaken = 0;
@@ -88,12 +91,14 @@ public class TransactionsService {
 			packetTaken += t.getPacketTaken();
 		}
 		remainingPacket = Integer.parseInt(noOfPacket) - packetTaken;
+		System.out.println("trying to return");
 		return remainingPacket;
 	}
 
 
 
 	public List<Transactions> getAllPreviousTransaction(String slipNumber){
+		System.out.println("try to find all");
 		 List<Transactions> alltransactions =  transactionsRepository.findBySlipNumber(slipNumber);
 		 System.out.println(alltransactions);
 		 return alltransactions;

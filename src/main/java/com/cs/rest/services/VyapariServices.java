@@ -53,6 +53,7 @@ public class VyapariServices {
 	
 	public Vyapari getVypari(String slipNumber){
 		List<Vyapari> vypariList = vypariRepository.findBySlipNumber(slipNumber);
+		System.out.println("fasa in "+ vypariList.toString());
 		return vypariList.get(0);
 	}
 

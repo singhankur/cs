@@ -45,6 +45,7 @@ public class KisanService {
 	
 	public Kisan getKisan(String slipNumber){
 		List<Kisan> kisanList =  kisanRepository.findBySlipNumber(slipNumber);
+		System.out.println(kisanList.toString() + "Fasa in kisan");
 		return kisanList.get(0);
 	}
 }
