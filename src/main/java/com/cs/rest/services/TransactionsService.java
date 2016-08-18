@@ -29,6 +29,7 @@ public class TransactionsService {
 	
 	public String createTransaction(TransactionsParams transaction){
 		Transactions trans = new Transactions();
+		System.out.println(transaction.toString() + "here");
 		trans.setTransactionID(counterService.getNextSequence("transactions"));
 		
 		String slipNumber = transaction.getSlipNumber();
@@ -45,6 +46,7 @@ public class TransactionsService {
 		if(kk!=null){
 			if(getReaminingPacket(kk.getNoOfPacket() , transaction.getSlipNumber()) >= Integer.parseInt(transaction.getPacketTaken()))
 			{
+				System.out.println("kisan");
 				saveTransaction(transaction);
 				return "Successful Transaction For Kisan";
 			}
@@ -53,6 +55,7 @@ public class TransactionsService {
 		if(vv!=null){
 			if(getReaminingPacket(vv.getNoOfPacket() , transaction.getSlipNumber()) >= Integer.parseInt(transaction.getPacketTaken()))
 			{
+				System.out.println("vypari");
 				saveTransaction(transaction);
 				return "Successful Transaction For Vypari";
 			}
@@ -91,7 +94,6 @@ public class TransactionsService {
 
 
 	public List<Transactions> getAllPreviousTransaction(String slipNumber){
-		System.out.println(slipNumber);
 		 List<Transactions> alltransactions =  transactionsRepository.findBySlipNumber(slipNumber);
 		 System.out.println(alltransactions);
 		 return alltransactions;
@@ -100,6 +102,7 @@ public class TransactionsService {
 
 
 	public List<Transactions> getUserTransactions(String slipNumber) {
+		System.out.println(slipNumber);
 		return getAllPreviousTransaction(slipNumber);
 	}
 
