@@ -38,6 +38,10 @@ public class AdminConstantsController {
 		HttpHeaders httpHeaders = new HttpHeaders();
 		return new ResponseEntity<AdminConstants>(adminConstants, httpHeaders, HttpStatus.OK);
 	}
+	@RequestMapping(value = "/getAllAdminConstant", method = RequestMethod.GET)
+	public Map<String, AdminConstants> getAllAdminConstant() {
+			return adminConstantsServices.getAllAdminConstant();
+	}
 	
 	@CrossOrigin
 	@RequestMapping(value = "/setAdminConstant", method = RequestMethod.POST)
