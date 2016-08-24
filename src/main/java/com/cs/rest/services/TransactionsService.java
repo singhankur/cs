@@ -6,7 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.cs.Constants.ApplicationConstants;
 import com.cs.mongo.model.Kisan;
 import com.cs.mongo.model.Transactions;
@@ -25,11 +26,11 @@ public class TransactionsService {
 	private VyapariServices vyapariServices;
 	@Autowired
 	private TransactionsRepository transactionsRepository;
-	
+	private static final Logger logger = LoggerFactory.getLogger(TransactionsService.class);
 	
 	public String createTransaction(TransactionsParams transaction){
+		logger.info(this.getClass().getName() + "@ createTransaction");
 		Transactions trans = new Transactions();
-		System.out.println(transaction.toString() + "here");
 		trans.setTransactionID(counterService.getNextSequence("transactions"));
 		
 		String slipNumber = transaction.getSlipNumber();
@@ -67,48 +68,55 @@ public class TransactionsService {
 	
 
 	private void saveTransaction(TransactionsParams transaction) {
-		System.out.println("Never Here");
+		logger.info(this.getClass().getName() + "@ saveTransaction");
 		Transactions trans = new Transactions();
 		trans.setSlipNumber(transaction.getSlipNumber());
 		trans.setTransactionID(counterService.getNextSequence(ApplicationConstants.TRANSACTION_COLLECTION));
 		trans.setAmountPaid(Double.parseDouble(transaction.getAmountPaid()));
-		trans.setTotalAmount(Double.parseDouble(transaction.getTotalAmount()));
+		trans.setPickupPrice(Double.parseDouble(transaction.getPickupPrice()));
+		trans.setDropPrice(Double.parseDouble(transaction.getDropPrice()));
 		trans.setPacketTaken(Integer.parseInt(transaction.getPacketTaken()));
 		trans.setBuyer(transaction.getBuyer());
 		trans.setCreatedDate(new Date());
-		System.out.println("Hows Here");
+		trans.setIsDeleted(ApplicationConstants.IS_NOT_DELETED);
 		transactionsRepository.save(trans);
 	}
 
 
 
 	private Integer getReaminingPacket(String noOfPacket, String slipNumber) {
-		System.out.println("here in packet");
+		logger.info(this.getClass().getName() + "@ getReaminingPacket");
 		List<Transactions> allTransaction = getAllPreviousTransaction(slipNumber);
 		int remainingPacket = 0;
 		int packetTaken = 0;
 		for(Transactions t : allTransaction){
-			packetTaken += t.getPacketTaken();
+			if(t.getIsDeleted()==null || !t.getIsDeleted())
+				packetTaken += t.getPacketTaken();
 		}
 		remainingPacket = Integer.parseInt(noOfPacket) - packetTaken;
-		System.out.println("trying to return");
 		return remainingPacket;
 	}
 
 
 
 	public List<Transactions> getAllPreviousTransaction(String slipNumber){
-		System.out.println("try to find all");
+		logger.info(this.getClass().getName() + "@ getAllPreviousTransaction");
 		 List<Transactions> alltransactions =  transactionsRepository.findBySlipNumber(slipNumber);
 		 System.out.println(alltransactions);
 		 return alltransactions;
 	}
 
-
-
 	public List<Transactions> getUserTransactions(String slipNumber) {
+		logger.info(this.getClass().getName() + "@ getUserTransactions");
 		System.out.println(slipNumber);
 		return getAllPreviousTransaction(slipNumber);
+	}
+
+
+
+	public String deleteTransaction(TransactionsParams transaction) {
+		
+		return null;
 	}
 
 }

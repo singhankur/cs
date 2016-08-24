@@ -1,6 +1,6 @@
 package com.cs.rest.controller;
 
-import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -36,7 +36,7 @@ public class VyapariController {
 			
 			@CrossOrigin
 			@RequestMapping(value = "/getEnlistedVyaparis", method = RequestMethod.GET)
-			public List<String>  getEnlistedVyaparis() {
+			public Set<String>  getEnlistedVyaparis() {
 			    return vyapariServices.getAllVypari();
 			}
 			

@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -26,10 +28,12 @@ public class TransactionsController {
 
 	@Autowired
 	TransactionsService transactionsService;
-
+	private static final Logger logger = LoggerFactory.getLogger(TransactionsController.class);
+	
 	@CrossOrigin
 	@RequestMapping(value = "/createTransaction", method = RequestMethod.POST)
 	public ResponseEntity<String> update(@RequestBody TransactionsParams transaction) {
+		logger.info(this.getClass().getName() + "@M update ");
 		String sttus = "Invalid";
 		if (transaction != null) {
 			sttus= transactionsService.createTransaction(transaction);
@@ -37,6 +41,19 @@ public class TransactionsController {
 		HttpHeaders httpHeaders = new HttpHeaders();
 		return new ResponseEntity<String>(sttus, httpHeaders, HttpStatus.OK);
 	}
+	
+	@CrossOrigin
+	@RequestMapping(value = "/deleteTransaction", method = RequestMethod.POST)
+	public ResponseEntity<String> deleteTransaction(@RequestBody TransactionsParams transaction) {
+		String sttus = "Invalid";
+		if (transaction != null) {
+			sttus= transactionsService.deleteTransaction(transaction);
+		}
+		HttpHeaders httpHeaders = new HttpHeaders();
+		return new ResponseEntity<String>(sttus, httpHeaders, HttpStatus.OK);
+	}
+	
+	
 	@CrossOrigin
 	@RequestMapping(value = "/getUserTransactions", method = RequestMethod.POST)
 	public ResponseEntity<List<Transactions>> getUserTransactions(@RequestBody String slipNumber) {
@@ -48,4 +65,6 @@ public class TransactionsController {
 		HttpHeaders httpHeaders = new HttpHeaders();
 		return new ResponseEntity<List<Transactions>>(transactions, httpHeaders, HttpStatus.OK);
 	}
+	
+	
 }

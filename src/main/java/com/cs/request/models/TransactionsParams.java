@@ -4,9 +4,12 @@ public class TransactionsParams {
 
 	private String slipNumber;
 	private String packetTaken;
-	private String totalAmount;
 	private String amountPaid;
 	private String buyer;
+	private String pickupPrice;
+	private String dropPrice;
+	
+	
 	public String getSlipNumber() {
 		return slipNumber;
 	}
@@ -19,12 +22,6 @@ public class TransactionsParams {
 	public void setPacketTaken(String packetTaken) {
 		this.packetTaken = packetTaken;
 	}
-	public String getTotalAmount() {
-		return totalAmount;
-	}
-	public void setTotalAmount(String totalAmount) {
-		this.totalAmount = totalAmount;
-	}
 	public String getAmountPaid() {
 		return amountPaid;
 	}
@@ -36,6 +33,18 @@ public class TransactionsParams {
 	}
 	public void setBuyer(String buyer) {
 		this.buyer = buyer;
+	}
+	public String getPickupPrice() {
+		return pickupPrice;
+	}
+	public void setPickupPrice(String pickupPrice) {
+		this.pickupPrice = pickupPrice;
+	}
+	public String getDropPrice() {
+		return dropPrice;
+	}
+	public void setDropPrice(String dropPrice) {
+		this.dropPrice = dropPrice;
 	}
 	
 }

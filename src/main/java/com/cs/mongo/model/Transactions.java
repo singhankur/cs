@@ -15,7 +15,6 @@ public class Transactions {
 	
 	private String slipNumber;
 	private Integer packetTaken;
-	private Double totalAmount;
 	private Double amountPaid;
 	private String buyer;
 	private String buyerID;
@@ -23,6 +22,8 @@ public class Transactions {
 	private Date lastModifiedDate;
 	private String maintainedBy;
 	private Boolean isDeleted;
+	private Double pickupPrice;
+	private Double dropPrice;
 	
 	
 	public Boolean getIsDeleted() {
@@ -50,12 +51,12 @@ public class Transactions {
 	public void setPacketTaken(Integer packetTaken) {
 		this.packetTaken = packetTaken;
 	}
-	public Double getTotalAmount() {
-		return totalAmount;
-	}
-	public void setTotalAmount(Double totalAmount) {
-		this.totalAmount = totalAmount;
-	}
+//	public Double getTotalAmount() {
+//		return totalAmount;
+//	}
+//	public void setTotalAmount(Double totalAmount) {
+//		this.totalAmount = totalAmount;
+//	}
 	public Double getAmountPaid() {
 		return amountPaid;
 	}
@@ -91,6 +92,18 @@ public class Transactions {
 	}
 	public void setMaintainedBy(String maintainedBy) {
 		this.maintainedBy = maintainedBy;
+	}
+	public Double getPickupPrice() {
+		return pickupPrice;
+	}
+	public void setPickupPrice(Double pickupPrice) {
+		this.pickupPrice = pickupPrice;
+	}
+	public Double getDropPrice() {
+		return dropPrice;
+	}
+	public void setDropPrice(Double dropPrice) {
+		this.dropPrice = dropPrice;
 	}
 	
 	

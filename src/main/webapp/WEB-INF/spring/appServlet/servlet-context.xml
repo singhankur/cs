@@ -45,4 +45,6 @@
 	 		  	<beans:constructor-arg name="databaseName" value="coldstorage"/>
 	 	</beans:bean>
 	 	 
+	 	  <int:logging-channel-adapter id="logger" level="DEBUG"/>
+	 	  
 </beans:beans>

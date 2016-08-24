@@ -30,8 +30,8 @@ public class KisanService {
 		kisan.setName(nweKisan.getName());
 		kisan.setFatherName(nweKisan.getFatherName());
 		kisan.setLotNumber(nweKisan.getLotNumber());
-		kisan.setPickupPrice(nweKisan.getPickupPrice());
-		kisan.setDropPrice(nweKisan.getDropPrice());
+		//kisan.setPickupPrice(nweKisan.getPickupPrice());
+		//kisan.setDropPrice(nweKisan.getDropPrice());
 		kisan.setMobile(nweKisan.getMobile());
 		kisan.setNoOfPacket(nweKisan.getNoOfPacket());
 		kisan.setAddress(nweKisan.getAddress());

@@ -1,8 +1,9 @@
 package com.cs.rest.services;
 
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,8 +30,8 @@ public class VyapariServices {
 		vypari.setName((newVypari.getName()));
 		vypari.setFatherName(newVypari.getFatherName());
 		vypari.setLotNumber(newVypari.getLotNumber());
-		vypari.setPickupPrice(newVypari.getPickupPrice());
-		vypari.setDropPrice(newVypari.getDropPrice());
+		//vypari.setPickupPrice(newVypari.getPickupPrice());
+		//vypari.setDropPrice(newVypari.getDropPrice());
 		vypari.setMobile(newVypari.getMobile());
 		vypari.setNoOfPacket(newVypari.getNoOfPacket());
 		vypari.setAddress(newVypari.getAddress());
@@ -42,9 +43,10 @@ public class VyapariServices {
 		return "Vypari Added Successfully";
 	}
 	
-	public List<String> getAllVypari() {
+	public Set<String> getAllVypari() {
 		List<Vyapari> vypari = vypariRepository.findAll();
-		List<String> vypariNameList = new ArrayList<>();
+		
+		Set<String> vypariNameList = new HashSet<String>();
 		for (Vyapari v : vypari) {
 			vypariNameList.add(v.getName());
 		}

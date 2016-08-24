@@ -18,8 +18,8 @@ public class Vyapari implements User{
 	@Nonnull@Id
 	private String slipNumber;
 	private String lotNumber;
-	private String pickupPrice;
-	private String dropPrice;
+	//private String pickupPrice;
+	//private String dropPrice;
 	private String noOfPacket;
 	private String mobile;
 	private String address;
@@ -64,18 +64,18 @@ public class Vyapari implements User{
 	public void setLotNumber(String lotNumber) {
 		this.lotNumber = lotNumber;
 	}
-	public String getPickupPrice() {
-		return pickupPrice;
-	}
-	public void setPickupPrice(String pickupPrice) {
-		this.pickupPrice = pickupPrice;
-	}
-	public String getDropPrice() {
-		return dropPrice;
-	}
-	public void setDropPrice(String dropPrice) {
-		this.dropPrice = dropPrice;
-	}
+//	public String getPickupPrice() {
+//		return pickupPrice;
+//	}
+//	public void setPickupPrice(String pickupPrice) {
+//		this.pickupPrice = pickupPrice;
+//	}
+//	public String getDropPrice() {
+//		return dropPrice;
+//	}
+//	public void setDropPrice(String dropPrice) {
+//		this.dropPrice = dropPrice;
+//	}
 	public String getNoOfPacket() {
 		return noOfPacket;
 	}
