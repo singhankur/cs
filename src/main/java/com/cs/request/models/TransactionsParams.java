@@ -8,8 +8,22 @@ public class TransactionsParams {
 	private String buyer;
 	private String pickupPrice;
 	private String dropPrice;
+	private boolean settled;
+	private double totalWeight;
 	
 	
+	public double getTotalWeight() {
+		return totalWeight;
+	}
+	public void setTotalWeight(double totalWeight) {
+		this.totalWeight = totalWeight;
+	}
+	public boolean isSettled() {
+		return settled;
+	}
+	public void setSettled(boolean settled) {
+		this.settled = settled;
+	}
 	public String getSlipNumber() {
 		return slipNumber;
 	}

@@ -18,8 +18,6 @@ public class Vyapari implements User{
 	@Nonnull@Id
 	private String slipNumber;
 	private String lotNumber;
-	//private String pickupPrice;
-	//private String dropPrice;
 	private String noOfPacket;
 	private String mobile;
 	private String address;
@@ -27,7 +25,6 @@ public class Vyapari implements User{
 	private Date lastModifiedDate;
 	private String maintainedBy;
 	private String session_id;
-	private String totalWeight;
 	private String typeOfPotato;
 	private String profileType;
 	
@@ -118,12 +115,12 @@ public class Vyapari implements User{
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getTotalWeight() {
-		return totalWeight;
-	}
-	public void setTotalWeight(String totalWeight) {
-		this.totalWeight = totalWeight;
-	}
+//	public String getTotalWeight() {
+//		return totalWeight;
+//	}
+//	public void setTotalWeight(String totalWeight) {
+//		this.totalWeight = totalWeight;
+//	}
 	public String getTypeOfPotato() {
 		return typeOfPotato;
 	}

@@ -17,8 +17,6 @@ public class Kisan implements User {
 	@Nonnull@Id
 	private String slipNumber;
 	private String lotNumber;
-//	private String pickupPrice;
-//	private String dropPrice;
 	private String noOfPacket;
 	private String mobile;
 	private String address;
@@ -26,11 +24,25 @@ public class Kisan implements User {
 	private Date lastModifiedDate;
 	private String maintainedBy;
 	private String session_id;
-	private String totalWeight;
 	private String typeOfPotato;
 	private String profileType;
+	private boolean dropPricesettled;
+	private boolean pickupPricesettled;
 	
 	
+	
+	public boolean isDropPricesettled() {
+		return dropPricesettled;
+	}
+	public void setDropPricesettled(boolean dropPricesettled) {
+		this.dropPricesettled = dropPricesettled;
+	}
+	public boolean isPickupPricesettled() {
+		return pickupPricesettled;
+	}
+	public void setPickupPricesettled(boolean pickupPricesettled) {
+		this.pickupPricesettled = pickupPricesettled;
+	}
 	public String getSession_id() {
 		return session_id;
 	}
@@ -86,18 +98,6 @@ public class Kisan implements User {
 	public void setLotNumber(String lotNumber) {
 		this.lotNumber = lotNumber;
 	}
-//	public String getPickupPrice() {
-//		return pickupPrice;
-//	}
-//	public void setPickupPrice(String pickupPrice) {
-//		this.pickupPrice = pickupPrice;
-//	}
-//	public String getDropPrice() {
-//		return dropPrice;
-//	}
-//	public void setDropPrice(String dropPrice) {
-//		this.dropPrice = dropPrice;
-//	}
 	public Date getCreatedDate() {
 		return createdDate;
 	}
@@ -115,12 +115,6 @@ public class Kisan implements User {
 	}
 	public void setMaintainedBy(String maintainedBy) {
 		this.maintainedBy = maintainedBy;
-	}
-	public String getTotalWeight() {
-		return totalWeight;
-	}
-	public void setTotalWeight(String totalWeight) {
-		this.totalWeight = totalWeight;
 	}
 	public String getTypeOfPotato() {
 		return typeOfPotato;

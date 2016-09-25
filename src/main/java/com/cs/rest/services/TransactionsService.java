@@ -76,6 +76,8 @@ public class TransactionsService {
 		trans.setPickupPrice(Double.parseDouble(transaction.getPickupPrice()));
 		trans.setDropPrice(Double.parseDouble(transaction.getDropPrice()));
 		trans.setPacketTaken(Integer.parseInt(transaction.getPacketTaken()));
+		trans.setSettled(transaction.isSettled());
+		trans.setTotalWeight(transaction.getTotalWeight());
 		trans.setBuyer(transaction.getBuyer());
 		trans.setCreatedDate(new Date());
 		trans.setIsDeleted(ApplicationConstants.IS_NOT_DELETED);

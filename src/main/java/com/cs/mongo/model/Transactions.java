@@ -24,8 +24,23 @@ public class Transactions {
 	private Boolean isDeleted;
 	private Double pickupPrice;
 	private Double dropPrice;
+	private Double totalWeight;
+	private boolean settled;
+		
 	
 	
+	public Double getTotalWeight() {
+		return totalWeight;
+	}
+	public void setTotalWeight(Double totalWeight) {
+		this.totalWeight = totalWeight;
+	}
+	public boolean isSettled() {
+		return settled;
+	}
+	public void setSettled(boolean settled) {
+		this.settled = settled;
+	}
 	public Boolean getIsDeleted() {
 		return isDeleted;
 	}
