@@ -55,12 +55,6 @@ public class SearchController {
 	    return new ResponseEntity<List<User>>(profiles, httpHeaders,HttpStatus.OK);
 	}
 	
-	@RequestMapping("/login")
-	public String register () 
-					throws MessagingException {
-		return "Wait This needs to be implemented";
-	}
-	
 	@RequestMapping("/test")
 	public List<User> getany (
 			@RequestParam(value = "s", defaultValue = "s") String s) 

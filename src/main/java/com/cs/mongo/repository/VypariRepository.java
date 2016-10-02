@@ -18,5 +18,9 @@ public interface VypariRepository  extends MongoRepository<Vyapari, String>{
 	List<Vyapari> findByMobileLike(String mobile);
 	List<Vyapari> findByAddressLike(String address);
 	
+	//IgnoreCase
+	List<Vyapari> findByFatherNameLikeIgnoreCase(String fatherName);
+	List<Vyapari> findByNameLikeIgnoreCase(String name);
+	
 	List<Vyapari> findBySlipNumber(String slipNumber);
 }

@@ -47,15 +47,16 @@ public class SearchServices {
 			
 		
 		if(!StringUtils.isEmpty(searchParams.getName())){
-			vypariList = vypariRepository.findByNameLike(searchParams.getName());
-			kisanList = kisanRepository.findByNameLike(searchParams.getName());
+			System.out.println(searchParams.getName());
+			vypariList = vypariRepository.findByNameLikeIgnoreCase(searchParams.getName());
+			kisanList = kisanRepository.findByNameLikeIgnoreCase(searchParams.getName());
 			addSearchOutput();
 		}
 			
 		
 		if(!StringUtils.isEmpty(searchParams.getFatherName())){
-			vypariList = vypariRepository.findByFatherNameLike(searchParams.getFatherName());
-			kisanList = kisanRepository.findByFatherNameLike(searchParams.getFatherName());
+			vypariList = vypariRepository.findByFatherNameLikeIgnoreCase(searchParams.getFatherName());
+			kisanList = kisanRepository.findByFatherNameLikeIgnoreCase(searchParams.getFatherName());
 			addSearchOutput();
 		}
 			

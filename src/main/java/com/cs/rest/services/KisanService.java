@@ -9,7 +9,7 @@ import org.springframework.util.StringUtils;
 import com.cs.mongo.model.Kisan;
 import com.cs.mongo.model.Vyapari;
 import com.cs.mongo.repository.KisanRepository;
-import com.cs.mongo.repository.VypariRepository;
+
 
 @Service
 public class KisanService {

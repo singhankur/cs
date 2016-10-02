@@ -6,6 +6,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 import com.cs.mongo.model.Kisan;
+import com.cs.mongo.model.Vyapari;
 
 
 @Repository
@@ -18,6 +19,10 @@ public interface KisanRepository  extends MongoRepository<Kisan, String>{
 	List<Kisan> findByFatherNameLike(String fatherName);
 	List<Kisan> findByMobileLike(String mobile);
 	List<Kisan> findByAddressLike(String address);
+	
+	//IgnoreCase
+	List<Kisan> findByFatherNameLikeIgnoreCase(String fatherName);
+	List<Kisan> findByNameLikeIgnoreCase(String name);
 	
 	List<Kisan> findBySlipNumber(String slipNumber);
 }

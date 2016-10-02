@@ -1,17 +1,21 @@
+use cs
 db.runCommand( { dropDatabase: 1 } )
 use cs
 
  db.counters.find();
+ 
+ 	
+	db.counters.insert({
+  	_id: "transactions",
+  	seq: 100
+	})
+	
  
 db.counters.findAndModify({
     	query: { _id: "transactions" },
     	update: { $inc: { seq: 0 } },
     	new: true
 		})
-		
-	db.counters.insert({
-  	_id: "transactions",
-  	seq: 100
-	})
+	
 	
 	 db.counters.find();

@@ -1,13 +1,16 @@
 package com.cs.advice;
 
+import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.RestController;
 
-@ControllerAdvice(annotations = RestController.class)
+@Component
+@Aspect
 public class SecurityAdvice {
 
-	@Before(value = "")
+	@Before("execution(* com.cs.rest.controller.*.*(..))")
 	private boolean checkAuthentication(){
 		System.out.println("Before Running");
 		return true;
