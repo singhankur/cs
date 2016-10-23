@@ -22,13 +22,67 @@ public class Transactions {
 	private Date lastModifiedDate;
 	private String maintainedBy;
 	private Boolean isDeleted;
-	private Double pickupPrice;
-	private Double dropPrice;
 	private Double totalWeight;
 	private boolean settled;
+	private Double totalDropPrice;
+	private Double totalWeightAmount;
+	private boolean isTransactionComplete;
+	private boolean haveSmallPacket;
+	private Integer totalSmallPacket;
+	private Double smallPacketAmount;
+	private Double amount;
+	private Double totalAmount;
 		
 	
 	
+	public Double getTotalAmount() {
+		return totalAmount;
+	}
+	public void setTotalAmount(Double totalAmount) {
+		this.totalAmount = totalAmount;
+	}
+	public boolean isHaveSmallPacket() {
+		return haveSmallPacket;
+	}
+	public void setHaveSmallPacket(boolean haveSmallPacket) {
+		this.haveSmallPacket = haveSmallPacket;
+	}
+	public Double getTotalDropPrice() {
+		return totalDropPrice;
+	}
+	public void setTotalDropPrice(Double totalDropPrice) {
+		this.totalDropPrice = totalDropPrice;
+	}
+	public Double getTotalWeightAmount() {
+		return totalWeightAmount;
+	}
+	public void setTotalWeightAmount(Double totalWeightAmount) {
+		this.totalWeightAmount = totalWeightAmount;
+	}
+	public boolean isTransactionComplete() {
+		return isTransactionComplete;
+	}
+	public void setTransactionComplete(boolean isTransactionComplete) {
+		this.isTransactionComplete = isTransactionComplete;
+	}
+	public Integer getTotalSmallPacket() {
+		return totalSmallPacket;
+	}
+	public void setTotalSmallPacket(Integer totalSmallPacket) {
+		this.totalSmallPacket = totalSmallPacket;
+	}
+	public Double getSmallPacketAmount() {
+		return smallPacketAmount;
+	}
+	public void setSmallPacketAmount(Double smallPacketAmount) {
+		this.smallPacketAmount = smallPacketAmount;
+	}
+	public Double getAmount() {
+		return amount;
+	}
+	public void setAmount(Double amount) {
+		this.amount = amount;
+	}
 	public Double getTotalWeight() {
 		return totalWeight;
 	}
@@ -66,12 +120,7 @@ public class Transactions {
 	public void setPacketTaken(Integer packetTaken) {
 		this.packetTaken = packetTaken;
 	}
-//	public Double getTotalAmount() {
-//		return totalAmount;
-//	}
-//	public void setTotalAmount(Double totalAmount) {
-//		this.totalAmount = totalAmount;
-//	}
+
 	public Double getAmountPaid() {
 		return amountPaid;
 	}
@@ -108,19 +157,8 @@ public class Transactions {
 	public void setMaintainedBy(String maintainedBy) {
 		this.maintainedBy = maintainedBy;
 	}
-	public Double getPickupPrice() {
-		return pickupPrice;
-	}
-	public void setPickupPrice(Double pickupPrice) {
-		this.pickupPrice = pickupPrice;
-	}
-	public Double getDropPrice() {
-		return dropPrice;
-	}
-	public void setDropPrice(Double dropPrice) {
-		this.dropPrice = dropPrice;
-	}
 	
+
 	
 	
 }

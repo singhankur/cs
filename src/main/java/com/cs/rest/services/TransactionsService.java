@@ -1,13 +1,15 @@
 package com.cs.rest.services;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import com.cs.Constants.ApplicationConstants;
 import com.cs.mongo.model.Kisan;
 import com.cs.mongo.model.Transactions;
@@ -24,6 +26,10 @@ public class TransactionsService {
 	private KisanService kisanService;
 	@Autowired
 	private VyapariServices vyapariServices;
+	
+	@Autowired
+	AdminConstantsServices adminConstant;
+	
 	@Autowired
 	private TransactionsRepository transactionsRepository;
 	private static final Logger logger = LoggerFactory.getLogger(TransactionsService.class);
@@ -47,8 +53,9 @@ public class TransactionsService {
 		if(kk!=null){
 			if(getReaminingPacket(kk.getNoOfPacket() , transaction.getSlipNumber()) >= Integer.parseInt(transaction.getPacketTaken()))
 			{
+				Boolean dropsettled = kk.isDropPricesettled();
 				System.out.println("kisan");
-				saveTransaction(transaction);
+				saveTransaction(transaction,dropsettled);
 				return "Successful Transaction For Kisan";
 			}
 			return "Not Enough Packet";
@@ -57,7 +64,8 @@ public class TransactionsService {
 			if(getReaminingPacket(vv.getNoOfPacket() , transaction.getSlipNumber()) >= Integer.parseInt(transaction.getPacketTaken()))
 			{
 				System.out.println("vypari");
-				saveTransaction(transaction);
+				Boolean dropsettled = vv.isDropPricesettled();
+				saveTransaction(transaction,dropsettled);
 				return "Successful Transaction For Vypari";
 			}
 			return "Not Enough Packet";
@@ -67,21 +75,139 @@ public class TransactionsService {
 	
 	
 
-	private void saveTransaction(TransactionsParams transaction) {
+	private void saveTransaction(TransactionsParams transaction, Boolean dropsettled) {
 		logger.info(this.getClass().getName() + "@ saveTransaction");
 		Transactions trans = new Transactions();
 		trans.setSlipNumber(transaction.getSlipNumber());
 		trans.setTransactionID(counterService.getNextSequence(ApplicationConstants.TRANSACTION_COLLECTION));
-		trans.setAmountPaid(Double.parseDouble(transaction.getAmountPaid()));
-		trans.setPickupPrice(Double.parseDouble(transaction.getPickupPrice()));
-		trans.setDropPrice(Double.parseDouble(transaction.getDropPrice()));
 		trans.setPacketTaken(Integer.parseInt(transaction.getPacketTaken()));
-		trans.setSettled(transaction.isSettled());
+		trans.setAmountPaid(Double.parseDouble(transaction.getAmountPaid()));
 		trans.setTotalWeight(transaction.getTotalWeight());
-		trans.setBuyer(transaction.getBuyer());
+		trans.setTotalWeightAmount(transaction.getTotalWeightAmount());
+		trans.setBuyerID(transaction.getFromWhichKisanSlipNumber());
+		trans.setMaintainedBy(transaction.getSession_id());
+		trans.setBuyer(setBuyer(transaction.getFromWhichKisanSlipNumber(),transaction.getBuyer()));
+		trans.setTotalSmallPacket(Integer.parseInt(transaction.getTotalSmallPaket()));
+		trans.setHaveSmallPacket(transaction.isSmallPacket());
+		trans.setSettled(dropsettled);
 		trans.setCreatedDate(new Date());
 		trans.setIsDeleted(ApplicationConstants.IS_NOT_DELETED);
+		//(String packetTaken,String slipNumber,String seller)
+		
+		Double intermediateAmount = calculateIntermediateAmount(transaction.getPacketTaken(),transaction.getSlipNumber(),transaction.getFromWhichKisanSlipNumber(),transaction.getTotalWeight(),transaction.getSeller());
+		Double samllPacketAmount = calculateSmallPacketAmmount(transaction.getTotalSmallPaket(),transaction.getSeller());
+		trans.setTotalDropPrice(calculateTotalDropPrice(transaction.getPacketTaken(),transaction.getSlipNumber(),transaction.getSeller()));
+		trans.setSmallPacketAmount(samllPacketAmount);
+		
+		
+		Double totalAmount = intermediateAmount+samllPacketAmount;
+		trans.setTotalAmount(totalAmount);
+		
+		
+		trans.setTransactionComplete(findIsTransactionComplete(transaction.getPacketTaken(),transaction.getAmountPaid(),transaction.getSlipNumber(), totalAmount));
 		transactionsRepository.save(trans);
+	}
+
+
+
+
+
+
+	private boolean findIsTransactionComplete(String packetTaken, String amountPaid, String slipNumber, Double totalAmount) {
+		
+		Integer remainingPacket =0;
+		Double remainingAnount =0D;
+		Double amountPaids =0D;
+		
+		List<Transactions> allTransaction = getAllPreviousTransaction(slipNumber);
+		
+		for(Transactions t : allTransaction){
+			remainingPacket += t.getPacketTaken();
+			remainingAnount += t.getTotalAmount();
+			amountPaids += t.getAmountPaid();
+		}
+		
+		if((remainingPacket-Integer.parseInt(packetTaken)==0) && ((remainingAnount+totalAmount)-(amountPaids+Double.parseDouble(amountPaid))==0))
+		return true;
+		
+		return false;
+	}
+
+
+
+	private Double calculateIntermediateAmount(String packetTaken,String slipNumber, String fromWhichKisanSlipNumber, double weightAmount, String seller) {
+		
+		Double intermediateAmount = 0D;
+		Calendar now = Calendar.getInstance();   // Gets the current date and time
+		int year = now.get(Calendar.YEAR); 
+		 
+		if(fromWhichKisanSlipNumber.equals(ApplicationConstants.NA))
+			return weightAmount;
+		else{
+			if(seller.equalsIgnoreCase("K")){
+				intermediateAmount = Double.parseDouble(adminConstant.getAdminConstant(String.valueOf(year)).getStoragePricePerPacketKisan()) * Integer.parseInt(packetTaken);
+				if(!kisanService.getKisan(slipNumber).isDropPricesettled())
+					intermediateAmount += Double.parseDouble(adminConstant.getAdminConstant(String.valueOf(year)).getDropPricePerPacketKisan()) * Integer.parseInt(packetTaken) ;
+			}
+				
+			else{
+				intermediateAmount = Double.parseDouble(adminConstant.getAdminConstant(String.valueOf(year)).getStoragePricePerPacketVypari()) * Integer.parseInt(packetTaken);
+				if(!vyapariServices.getVypari(slipNumber).isDropPricesettled())
+					intermediateAmount += Double.parseDouble(adminConstant.getAdminConstant(String.valueOf(year)).getDropPricePerPacketVypari()) * Integer.parseInt(packetTaken) ;
+			}	
+
+		}
+			return intermediateAmount;
+		
+	}
+
+
+
+	private Double calculateSmallPacketAmmount(String smallPacket,String seller) {
+		Calendar now = Calendar.getInstance();   // Gets the current date and time
+		int year = now.get(Calendar.YEAR); 
+		Double intermediateAmount = 0D;
+		if(seller.equalsIgnoreCase("K")){
+			intermediateAmount = Double.parseDouble(adminConstant.getAdminConstant(String.valueOf(year)).getStoragePricePerSmallPacketKisan()) * Integer.parseInt(smallPacket);
+			}
+			
+		else{
+			intermediateAmount = Double.parseDouble(adminConstant.getAdminConstant(String.valueOf(year)).getStoragePricePerSmallPacketVypari()) * Integer.parseInt(smallPacket);
+			}	
+		
+		return intermediateAmount;
+	}
+
+
+
+	private Double calculateTotalDropPrice(String packetTaken,String slipNumber,String seller) {
+		Double intermediateAmount = 0D;
+		Calendar now = Calendar.getInstance();   // Gets the current date and time
+		int year = now.get(Calendar.YEAR); 
+		
+		if(seller.equalsIgnoreCase("K")){
+			
+			if(!kisanService.getKisan(slipNumber).isDropPricesettled())
+				intermediateAmount += Double.parseDouble(adminConstant.getAdminConstant(String.valueOf(year)).getDropPricePerPacketKisan()) * Integer.parseInt(packetTaken) ;
+		}
+			
+		else{
+			
+			if(!vyapariServices.getVypari(slipNumber).isDropPricesettled())
+				intermediateAmount += Double.parseDouble(adminConstant.getAdminConstant(String.valueOf(year)).getDropPricePerPacketVypari()) * Integer.parseInt(packetTaken) ;
+		}
+		
+		return intermediateAmount;
+	}
+
+
+
+	private String setBuyer(String fromWhichKisanSlipNumber, String buyer) {
+		if(fromWhichKisanSlipNumber.equals(ApplicationConstants.NA))
+			return buyer;
+		else
+			return "K:"+fromWhichKisanSlipNumber;
+			
 	}
 
 

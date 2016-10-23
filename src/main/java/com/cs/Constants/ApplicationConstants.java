@@ -10,4 +10,5 @@ public interface ApplicationConstants {
 	public static final String CIPHER_ENCODED_0264_KEY = "ThisIsLakshMIColdStorageForPotatoes";
 	public static final String CIPHER_FEEDBACK = "MyHOmeLL";
 	public static final String CIPHER_MIDDLE_TEXT = "cc";
+	public static final String NA = "NA";
 }

@@ -6,24 +6,59 @@ public class TransactionsParams {
 	private String packetTaken;
 	private String amountPaid;
 	private String buyer;
-	private String pickupPrice;
-	private String dropPrice;
-	private boolean settled;
+	private String seller;
+	private boolean smallPacket;
 	private double totalWeight;
+	private String totalSmallPaket;
+	private double totalWeightAmount;
+	private String fromWhichKisanSlipNumber;
+	private String session_id;
 	
 	
+	public String getSession_id() {
+		return session_id;
+	}
+	public void setSession_id(String session_id) {
+		this.session_id = session_id;
+	}
+	public String getSeller() {
+		return seller;
+	}
+	public void setSeller(String seller) {
+		this.seller = seller;
+	}
+	
+	public boolean isSmallPacket() {
+		return smallPacket;
+	}
+	public void setSmallPacket(boolean smallPacket) {
+		this.smallPacket = smallPacket;
+	}
+	public String getTotalSmallPaket() {
+		return totalSmallPaket;
+	}
+	public void setTotalSmallPaket(String totalSmallPaket) {
+		this.totalSmallPaket = totalSmallPaket;
+	}
+	public double getTotalWeightAmount() {
+		return totalWeightAmount;
+	}
+	public void setTotalWeightAmount(double totalWeightAmount) {
+		this.totalWeightAmount = totalWeightAmount;
+	}
+	public String getFromWhichKisanSlipNumber() {
+		return fromWhichKisanSlipNumber;
+	}
+	public void setFromWhichKisanSlipNumber(String fromWhichKisanSlipNumber) {
+		this.fromWhichKisanSlipNumber = fromWhichKisanSlipNumber;
+	}
 	public double getTotalWeight() {
 		return totalWeight;
 	}
 	public void setTotalWeight(double totalWeight) {
 		this.totalWeight = totalWeight;
 	}
-	public boolean isSettled() {
-		return settled;
-	}
-	public void setSettled(boolean settled) {
-		this.settled = settled;
-	}
+
 	public String getSlipNumber() {
 		return slipNumber;
 	}
@@ -48,17 +83,6 @@ public class TransactionsParams {
 	public void setBuyer(String buyer) {
 		this.buyer = buyer;
 	}
-	public String getPickupPrice() {
-		return pickupPrice;
-	}
-	public void setPickupPrice(String pickupPrice) {
-		this.pickupPrice = pickupPrice;
-	}
-	public String getDropPrice() {
-		return dropPrice;
-	}
-	public void setDropPrice(String dropPrice) {
-		this.dropPrice = dropPrice;
-	}
+
 	
 }

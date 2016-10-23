@@ -8,30 +8,54 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "adminConstants")
 public class AdminConstants {
 
-	private String storagePricePerPacket;
-	private String pickupPricePerPacket;
-	private String dropPricePerPacket;
+	private String storagePricePerPacketKisan;
+	private String dropPricePerPacketKisan;
+	private String storagePricePerPacketVypari;
+	private String dropPricePerPacketVypari;
+	
+	private String storagePricePerSmallPacketVypari;
+	private String storagePricePerSmallPacketKisan;
+	
+	
+	
+	public String getStoragePricePerSmallPacketVypari() {
+		return storagePricePerSmallPacketVypari;
+	}
+	public void setStoragePricePerSmallPacketVypari(String storagePricePerSmallPacketVypari) {
+		this.storagePricePerSmallPacketVypari = storagePricePerSmallPacketVypari;
+	}
+	public String getStoragePricePerSmallPacketKisan() {
+		return storagePricePerSmallPacketKisan;
+	}
+	public void setStoragePricePerSmallPacketKisan(String storagePricePerSmallPacketKisan) {
+		this.storagePricePerSmallPacketKisan = storagePricePerSmallPacketKisan;
+	}
 	@Id @Nonnull
 	private String year;
 	private String createdDate;
-	
-	public String getStoragePricePerPacket() {
-		return storagePricePerPacket;
+	public String getStoragePricePerPacketKisan() {
+		return storagePricePerPacketKisan;
 	}
-	public void setStoragePricePerPacket(String storagePricePerPacket) {
-		this.storagePricePerPacket = storagePricePerPacket;
+	public void setStoragePricePerPacketKisan(String storagePricePerPacketKisan) {
+		this.storagePricePerPacketKisan = storagePricePerPacketKisan;
 	}
-	public String getPickupPricePerPacket() {
-		return pickupPricePerPacket;
+	public String getDropPricePerPacketKisan() {
+		return dropPricePerPacketKisan;
 	}
-	public void setPickupPricePerPacket(String pickupPricePerPacket) {
-		this.pickupPricePerPacket = pickupPricePerPacket;
+	public void setDropPricePerPacketKisan(String dropPricePerPacketKisan) {
+		this.dropPricePerPacketKisan = dropPricePerPacketKisan;
 	}
-	public String getDropPricePerPacket() {
-		return dropPricePerPacket;
+	public String getStoragePricePerPacketVypari() {
+		return storagePricePerPacketVypari;
 	}
-	public void setDropPricePerPacket(String dropPricePerPacket) {
-		this.dropPricePerPacket = dropPricePerPacket;
+	public void setStoragePricePerPacketVypari(String storagePricePerPacketVypari) {
+		this.storagePricePerPacketVypari = storagePricePerPacketVypari;
+	}
+	public String getDropPricePerPacketVypari() {
+		return dropPricePerPacketVypari;
+	}
+	public void setDropPricePerPacketVypari(String dropPricePerPacketVypari) {
+		this.dropPricePerPacketVypari = dropPricePerPacketVypari;
 	}
 	public String getYear() {
 		return year;
@@ -45,6 +69,7 @@ public class AdminConstants {
 	public void setCreatedDate(String createdDate) {
 		this.createdDate = createdDate;
 	}
+	
 	
 	
 }
