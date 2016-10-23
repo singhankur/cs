@@ -42,7 +42,6 @@ public class KisanService {
 		kisan.setAddress(nweKisan.getAddress());
 		kisan.setTypeOfPotato(nweKisan.getTypeOfPotato());
 		kisan.setProfileType(nweKisan.getProfileType());
-		kisan.setPickupPricesettled(nweKisan.isPickupPricesettled());
 		kisan.setDropPricesettled(nweKisan.isDropPricesettled());
 		kisanRepository.save(kisan);
 		
@@ -53,9 +52,9 @@ public class KisanService {
 		Kisan k = getKisan(slipNumber);
 		if(k!=null)
 			return true;
-		Vyapari v = vyapariServices.getVypari(slipNumber);
+		/*Vyapari v = vyapariServices.getVypari(slipNumber);
 		if(v!=null)
-			return true;
+			return true;*/
 		
 		return false;
 	}

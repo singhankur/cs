@@ -12,10 +12,10 @@ public class Vyapari implements User{
 	
 
 	//For Future Reference
+	@Nonnull@Id
 	private String vypariid;
 	private String name;
 	private String fatherName; 
-	@Nonnull@Id
 	private String slipNumber;
 	private String lotNumber;
 	private String noOfPacket;
@@ -27,9 +27,22 @@ public class Vyapari implements User{
 	private String session_id;
 	private String typeOfPotato;
 	private String profileType;
+	private boolean dropPricesettled;
+	private boolean havePotato;
 	
 	
-	
+	public boolean isDropPricesettled() {
+		return dropPricesettled;
+	}
+	public void setDropPricesettled(boolean dropPricesettled) {
+		this.dropPricesettled = dropPricesettled;
+	}
+	public boolean isHavePotato() {
+		return havePotato;
+	}
+	public void setHavePotato(boolean havePotato) {
+		this.havePotato = havePotato;
+	}
 	public String getSession_id() {
 		return session_id;
 	}

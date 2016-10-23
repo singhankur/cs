@@ -27,7 +27,6 @@ public class Kisan implements User {
 	private String typeOfPotato;
 	private String profileType;
 	private boolean dropPricesettled;
-	private boolean pickupPricesettled;
 	
 	
 	
@@ -37,12 +36,7 @@ public class Kisan implements User {
 	public void setDropPricesettled(boolean dropPricesettled) {
 		this.dropPricesettled = dropPricesettled;
 	}
-	public boolean isPickupPricesettled() {
-		return pickupPricesettled;
-	}
-	public void setPickupPricesettled(boolean pickupPricesettled) {
-		this.pickupPricesettled = pickupPricesettled;
-	}
+
 	public String getSession_id() {
 		return session_id;
 	}

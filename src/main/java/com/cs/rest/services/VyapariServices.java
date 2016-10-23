@@ -21,12 +21,12 @@ public class VyapariServices {
 	KisanService ks;
 	
 	public String addvypari(Vyapari newVypari) {
-		if(StringUtils.isEmpty(newVypari.getSlipNumber()) || newVypari.getSlipNumber().equals("slipNumber"))
+		if(newVypari.getSlipNumber().equals("slipNumber"))
 			return "Invalid Slip Number";
 
 
 		if(ks.searchPreviousSlipNumber(newVypari.getSlipNumber()))
-			return "Kisan or Vypari Exist, Try Update";
+			return "Kisan Exist, Try With Differnt Slip Number";
 		
 		
 		Vyapari vypari  = new Vyapari();
@@ -42,6 +42,8 @@ public class VyapariServices {
 		vypari.setAddress(newVypari.getAddress());
 		vypari.setTypeOfPotato(newVypari.getTypeOfPotato());
 		vypari.setProfileType(newVypari.getProfileType());
+		vypari.setDropPricesettled(newVypari.isDropPricesettled());
+		vypari.setHavePotato(newVypari.isHavePotato());
 		vypariRepository.save(vypari);
 		
 		return "Vypari Added Successfully";
