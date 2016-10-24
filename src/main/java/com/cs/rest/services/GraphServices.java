@@ -92,6 +92,7 @@ public class GraphServices {
 	
 	public List<Map<String,String>>  packetGraphLastSevenDays(String startDate, String session_id) {
 		List<Transactions> allTransaction = ts.getallTransactionPrevious7Days(startDate);
+		
 		List<GraphModel> packetModel = new ArrayList<>();
 	
 		
@@ -105,9 +106,6 @@ public class GraphServices {
 			String createdDate = t.getCreatedDate();
 			String timeFromDate = DateUtility.getDateFromDate(createdDate);
 			Double oldValue = revenueMap.get(timeFromDate);
-			if(oldValue ==null)
-				oldValue = 0D;
-			
 			oldValue += t.getPacketTaken();
 			revenueMap.put(timeFromDate, oldValue);	
 		}
@@ -120,6 +118,7 @@ public class GraphServices {
 			packetModel.add(gm);
 		}
 		
+		System.out.println(packetModel + "Packet MOdel ");
 		return getFraphModelToString(packetModel);
 	}
 

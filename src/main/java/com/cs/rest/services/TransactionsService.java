@@ -261,13 +261,12 @@ public class TransactionsService {
 
 
 	public List<Transactions> getallTransactionPrevious7Days(String startDate) {
-		
-	
 		List<String> previous7Dates = DateUtility.getPrevious7DaysDate(startDate);
 		List<Transactions> all7DaysTrans = new ArrayList<>();
 		for(String days : previous7Dates ){
 			all7DaysTrans.addAll(transactionsRepository.findByCreatedDateStartsWith(days));
 		}
+		System.out.println("All 7 Days Transactions-" + all7DaysTrans);
 		return all7DaysTrans;
 	}
 
