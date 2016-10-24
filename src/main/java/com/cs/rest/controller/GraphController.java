@@ -3,6 +3,7 @@ package com.cs.rest.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import com.cs.request.models.GraphModel;
+
 import com.cs.rest.services.GraphServices;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -29,46 +30,46 @@ public class GraphController {
 	@CrossOrigin
 	@RequestMapping(value = "/packetGraphPerDay", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<List<GraphModel>> packetGraphPerDay(@RequestBody String json) {
+	public ResponseEntity<List<Map<String,String>>> packetGraphPerDay(@RequestBody String json) {
 		Map<String, String> retMap = new Gson().fromJson(json, new TypeToken<HashMap<String, Object>>() {}.getType());
-		List<GraphModel> graphModels;
-		graphModels = gs.packetGraphPerDay(retMap.get("date"),retMap.get("session_id"));
+		List<Map<String,String>> graphModels;
+		graphModels = gs.packetGraphPerDay(retMap.get("startDate"),retMap.get("session_id"));
 	    HttpHeaders httpHeaders = new HttpHeaders();
-	    return new ResponseEntity<List<GraphModel>>(graphModels, httpHeaders,HttpStatus.OK);
+	    return new ResponseEntity<List<Map<String,String>>>(graphModels, httpHeaders,HttpStatus.OK);
 	}
 	
 	@CrossOrigin
 	@RequestMapping(value = "/revenueGraphPerDay", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<List<GraphModel>> revenueGraphPerDay(@RequestBody String json) {
+	public ResponseEntity<List<Map<String,String>>> revenueGraphPerDay(@RequestBody String json) {
 		Map<String, String> retMap = new Gson().fromJson(json, new TypeToken<HashMap<String, Object>>() {}.getType());
-		List<GraphModel> graphModels;
-		graphModels = gs.revenueGraphPerDay(retMap.get("date"),retMap.get("session_id"));
+		List<Map<String,String>> graphModels;
+		graphModels = gs.revenueGraphPerDay(retMap.get("startDate"),retMap.get("session_id"));
 	    HttpHeaders httpHeaders = new HttpHeaders();
-	    return new ResponseEntity<List<GraphModel>>(graphModels, httpHeaders,HttpStatus.OK);
+	    return new ResponseEntity<List<Map<String,String>>>(graphModels, httpHeaders,HttpStatus.OK);
 	}
 	
 	
 	@CrossOrigin
 	@RequestMapping(value = "/packetGraphLastSevenDays", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<List<GraphModel>> packetGraphLastSevenDays(@RequestBody String json) {
+	public ResponseEntity<List<Map<String,String>>> packetGraphLastSevenDays(@RequestBody String json) {
 		Map<String, String> retMap = new Gson().fromJson(json, new TypeToken<HashMap<String, Object>>() {}.getType());
-		List<GraphModel> graphModels;
+		List<Map<String,String>> graphModels;
 		graphModels = gs.packetGraphLastSevenDays(retMap.get("startDate"),retMap.get("session_id"));
 	    HttpHeaders httpHeaders = new HttpHeaders();
-	    return new ResponseEntity<List<GraphModel>>(graphModels, httpHeaders,HttpStatus.OK);
+	    return new ResponseEntity<List<Map<String,String>>>(graphModels, httpHeaders,HttpStatus.OK);
 	}
 	
 	@CrossOrigin
 	@RequestMapping(value = "/revenueGraphLastSevenDays", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<List<GraphModel>> revenueGraphLastSevenDays(@RequestBody String json) {
+	public ResponseEntity<List<Map<String,String>>> revenueGraphLastSevenDays(@RequestBody String json) {
 		Map<String, String> retMap = new Gson().fromJson(json, new TypeToken<HashMap<String, Object>>() {}.getType());
-		List<GraphModel> graphModels;
+		List<Map<String,String>> graphModels;
 		graphModels = gs.revenueGraphLastSevenDays(retMap.get("startDate"),retMap.get("session_id"));
 	    HttpHeaders httpHeaders = new HttpHeaders();
-	    return new ResponseEntity<List<GraphModel>>(graphModels, httpHeaders,HttpStatus.OK);
+	    return new ResponseEntity<List<Map<String,String>>>(graphModels, httpHeaders,HttpStatus.OK);
 	}
 	
 }

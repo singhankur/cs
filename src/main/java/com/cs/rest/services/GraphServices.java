@@ -19,14 +19,19 @@ public class GraphServices {
 	@Autowired
 	TransactionsService ts;
 	
-	public List<GraphModel> revenueGraphPerDay(String date, String session_id) {
+	public List<Map<String,String>>  revenueGraphPerDay(String date, String session_id) {
 		
 		List<Transactions> allTransaction = ts.getallTransaction(date);
 		List<GraphModel> revenueModel = new ArrayList<>();
 		DecimalFormat twodigits = new DecimalFormat("00");
 		
 	
+
 		Map<String,Double> revenueMap = new HashMap<>();
+		for(int i=0;i<24;i++){
+			revenueMap.put((twodigits.format(i)) , 0D);
+		}
+		
 		for(Transactions t : allTransaction){
 			String createdDate = t.getCreatedDate();
 			String timeFromDate = DateUtility.getHoursFromDate(createdDate);
@@ -45,10 +50,12 @@ public class GraphServices {
 			revenueModel.add(gm);
 		}
 		
-		return revenueModel;
+		return getFraphModelToString(revenueModel);
 	}
+	
+	
 
-	public List<GraphModel> packetGraphPerDay(String date, String session_id) {
+	public List<Map<String,String>>  packetGraphPerDay(String date, String session_id) {
 		
 		List<Transactions> allTransaction = ts.getallTransaction(date);
 		List<GraphModel> packetModel = new ArrayList<>();
@@ -56,6 +63,9 @@ public class GraphServices {
 		
 	
 		Map<String,Double> revenueMap = new HashMap<>();
+		for(int i=0;i<24;i++){
+			revenueMap.put((twodigits.format(i)) , 0D);
+		}
 		for(Transactions t : allTransaction){
 			String createdDate = t.getCreatedDate();
 			String timeFromDate = DateUtility.getHoursFromDate(createdDate);
@@ -74,19 +84,23 @@ public class GraphServices {
 			packetModel.add(gm);
 		}
 		
-		return packetModel;
+		return getFraphModelToString(packetModel);
 		
 
 	}
 
 	
-	public List<GraphModel> packetGraphLastSevenDays(String startDate, String session_id) {
+	public List<Map<String,String>>  packetGraphLastSevenDays(String startDate, String session_id) {
 		List<Transactions> allTransaction = ts.getallTransactionPrevious7Days(startDate);
 		List<GraphModel> packetModel = new ArrayList<>();
-		DecimalFormat twodigits = new DecimalFormat("00");
-		
 	
+		
 		Map<String,Double> revenueMap = new HashMap<>();
+		List<String> last7Days = DateUtility.getPrevious7DaysDate(startDate);
+		for(String day : last7Days){
+			revenueMap.put(day, 0D);
+		}
+		
 		for(Transactions t : allTransaction){
 			String createdDate = t.getCreatedDate();
 			String timeFromDate = DateUtility.getDateFromDate(createdDate);
@@ -97,25 +111,29 @@ public class GraphServices {
 			oldValue += t.getPacketTaken();
 			revenueMap.put(timeFromDate, oldValue);	
 		}
+		
 
-		for(int i=0;i<24;i++){
+		for(String day : last7Days){
 			GraphModel gm = new GraphModel();
-			gm.setX_axis(twodigits.format(i) + ":00-Hrs");
-			gm.setY_axis(Double.toString(revenueMap.get(twodigits.format(i))));
+			gm.setX_axis(day);
+			gm.setY_axis(Double.toString(revenueMap.get(day)));
 			packetModel.add(gm);
 		}
 		
-		return packetModel;
+		return getFraphModelToString(packetModel);
 	}
 
-	public List<GraphModel> revenueGraphLastSevenDays(String startDate, String session_id) {
-		
+	public List<Map<String,String>>  revenueGraphLastSevenDays(String startDate, String session_id) {
 		List<Transactions> allTransaction = ts.getallTransactionPrevious7Days(startDate);
-		List<GraphModel> revenueModel = new ArrayList<>();
-		DecimalFormat twodigits = new DecimalFormat("00");
-		
+		List<GraphModel> packetModel = new ArrayList<>();
 	
+		
 		Map<String,Double> revenueMap = new HashMap<>();
+		List<String> last7Days = DateUtility.getPrevious7DaysDate(startDate);
+		for(String day : last7Days){
+			revenueMap.put(day, 0D);
+		}
+		
 		for(Transactions t : allTransaction){
 			String createdDate = t.getCreatedDate();
 			String timeFromDate = DateUtility.getDateFromDate(createdDate);
@@ -126,15 +144,29 @@ public class GraphServices {
 			oldValue += t.getAmountPaid();
 			revenueMap.put(timeFromDate, oldValue);	
 		}
+		
 
-		for(int i=0;i<24;i++){
+		for(String day : last7Days){
 			GraphModel gm = new GraphModel();
-			gm.setX_axis(twodigits.format(i) + ":00-Hrs");
-			gm.setY_axis(Double.toString(revenueMap.get(twodigits.format(i))));
-			revenueModel.add(gm);
+			gm.setX_axis(day);
+			gm.setY_axis(Double.toString(revenueMap.get(day)));
+			packetModel.add(gm);
 		}
 		
-		return revenueModel;
+		return getFraphModelToString(packetModel);
+	
+	
+	}
+	
+	public List<Map<String,String>> getFraphModelToString(List<GraphModel> models){
+		List<Map<String,String>>  finalGraph = new ArrayList<>();
+		for(GraphModel model : models){
+			Map<String,String> graphParam = new HashMap<>();
+			graphParam.put(model.getX_axis(), model.getY_axis());	
+			finalGraph.add(graphParam);
+		}
+		
+		return finalGraph;
 	}
 
 }
