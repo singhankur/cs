@@ -1,6 +1,5 @@
 package com.cs.mongo.model;
 
-import java.util.Date;
 
 import javax.annotation.Nonnull;
 
@@ -20,8 +19,8 @@ public class Kisan implements User {
 	private String noOfPacket;
 	private String mobile;
 	private String address;
-	private Date createdDate;
-	private Date lastModifiedDate;
+	private String createdDate;
+	private String lastModifiedDate;
 	private String maintainedBy;
 	private String session_id;
 	private String typeOfPotato;
@@ -92,16 +91,17 @@ public class Kisan implements User {
 	public void setLotNumber(String lotNumber) {
 		this.lotNumber = lotNumber;
 	}
-	public Date getCreatedDate() {
+	
+	public String getCreatedDate() {
 		return createdDate;
 	}
-	public void setCreatedDate(Date createdDate) {
+	public void setCreatedDate(String createdDate) {
 		this.createdDate = createdDate;
 	}
-	public Date getLastModifiedDate() {
+	public String getLastModifiedDate() {
 		return lastModifiedDate;
 	}
-	public void setLastModifiedDate(Date lastModifiedDate) {
+	public void setLastModifiedDate(String lastModifiedDate) {
 		this.lastModifiedDate = lastModifiedDate;
 	}
 	public String getMaintainedBy() {

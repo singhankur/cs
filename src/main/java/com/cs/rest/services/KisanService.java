@@ -1,14 +1,15 @@
 package com.cs.rest.services;
 
-import java.util.Date;
+import java.text.ParseException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+
 import com.cs.mongo.model.Kisan;
-import com.cs.mongo.model.Vyapari;
 import com.cs.mongo.repository.KisanRepository;
+import com.cs.utility.DateUtility;
 
 
 @Service
@@ -30,8 +31,12 @@ public class KisanService {
 			return "Kisan or Vypari Exist, Try Update";
 		
 		kisan  = new Kisan();
-		kisan.setCreatedDate(new Date());
-		kisan.setLastModifiedDate(new Date());
+		try {
+			kisan.setCreatedDate(DateUtility.getDateWithTimeZone());
+			kisan.setLastModifiedDate(DateUtility.getDateWithTimeZone());
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 		kisan.setMaintainedBy(nweKisan.getMaintainedBy());
 		kisan.setSlipNumber(nweKisan.getSlipNumber());
 		kisan.setName(nweKisan.getName());

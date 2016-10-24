@@ -3,7 +3,6 @@ package com.cs.rest.services;
 import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
-import java.util.Arrays;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -33,7 +32,6 @@ public class SessionManagementService {
 			cipherdUserName = cipher.encrypt(userName+password);
 		} catch (InvalidKeyException | InvalidAlgorithmParameterException | IllegalBlockSizeException
 				| ShortBufferException | BadPaddingException | IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

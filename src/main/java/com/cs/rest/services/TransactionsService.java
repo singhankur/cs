@@ -1,7 +1,7 @@
 package com.cs.rest.services;
 
+import java.text.ParseException;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -16,6 +16,7 @@ import com.cs.mongo.model.Transactions;
 import com.cs.mongo.model.Vyapari;
 import com.cs.mongo.repository.TransactionsRepository;
 import com.cs.request.models.TransactionsParams;
+import com.cs.utility.DateUtility;
 
 @Service
 public class TransactionsService {
@@ -90,9 +91,12 @@ public class TransactionsService {
 		trans.setTotalSmallPacket(Integer.parseInt(transaction.getTotalSmallPaket()));
 		trans.setHaveSmallPacket(transaction.isSmallPacket());
 		trans.setSettled(dropsettled);
-		trans.setCreatedDate(new Date());
+		try {
+			trans.setCreatedDate(DateUtility.getDateWithTimeZone());
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 		trans.setIsDeleted(ApplicationConstants.IS_NOT_DELETED);
-		//(String packetTaken,String slipNumber,String seller)
 		
 		Double intermediateAmount = calculateIntermediateAmount(transaction.getPacketTaken(),transaction.getSlipNumber(),transaction.getFromWhichKisanSlipNumber(),transaction.getTotalWeight(),transaction.getSeller());
 		Double samllPacketAmount = calculateSmallPacketAmmount(transaction.getTotalSmallPaket(),transaction.getSeller());

@@ -1,6 +1,5 @@
 package com.cs.mongo.model;
 
-import java.util.Date;
 
 import javax.annotation.Nonnull;
 
@@ -18,8 +17,8 @@ public class Transactions {
 	private Double amountPaid;
 	private String buyer;
 	private String buyerID;
-	private Date createdDate;
-	private Date lastModifiedDate;
+	private String createdDate;
+	private String lastModifiedDate;
 	private String maintainedBy;
 	private Boolean isDeleted;
 	private Double totalWeight;
@@ -139,16 +138,17 @@ public class Transactions {
 	public void setBuyerID(String buyerID) {
 		this.buyerID = buyerID;
 	}
-	public Date getCreatedDate() {
+	
+	public String getCreatedDate() {
 		return createdDate;
 	}
-	public void setCreatedDate(Date createdDate) {
+	public void setCreatedDate(String createdDate) {
 		this.createdDate = createdDate;
 	}
-	public Date getLastModifiedDate() {
+	public String getLastModifiedDate() {
 		return lastModifiedDate;
 	}
-	public void setLastModifiedDate(Date lastModifiedDate) {
+	public void setLastModifiedDate(String lastModifiedDate) {
 		this.lastModifiedDate = lastModifiedDate;
 	}
 	public String getMaintainedBy() {

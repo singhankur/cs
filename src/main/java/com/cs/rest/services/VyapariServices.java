@@ -1,16 +1,16 @@
 package com.cs.rest.services;
 
-import java.util.Date;
+import java.text.ParseException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import com.cs.mongo.model.Vyapari;
 import com.cs.mongo.repository.VypariRepository;
+import com.cs.utility.DateUtility;
 
 @Service
 public class VyapariServices {
@@ -30,8 +30,13 @@ public class VyapariServices {
 		
 		
 		Vyapari vypari  = new Vyapari();
-		vypari.setCreatedDate(new Date());
-		vypari.setLastModifiedDate(new Date());
+		try {
+			vypari.setCreatedDate(DateUtility.getDateWithTimeZone());
+			vypari.setLastModifiedDate(DateUtility.getDateWithTimeZone());
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+	
 		vypari.setMaintainedBy(newVypari.getMaintainedBy());
 		vypari.setSlipNumber(newVypari.getSlipNumber());
 		vypari.setName((newVypari.getName()));
