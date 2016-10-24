@@ -50,23 +50,23 @@ public class GraphController {
 	
 	
 	@CrossOrigin
-	@RequestMapping(value = "/packetGraphStartEnd", method = RequestMethod.POST)
+	@RequestMapping(value = "/packetGraphLastSevenDays", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<List<GraphModel>> packetGraphStartEnd(@RequestBody String json) {
+	public ResponseEntity<List<GraphModel>> packetGraphLastSevenDays(@RequestBody String json) {
 		Map<String, String> retMap = new Gson().fromJson(json, new TypeToken<HashMap<String, Object>>() {}.getType());
 		List<GraphModel> graphModels;
-		graphModels = gs.packetGraphStartEnd(retMap.get("startDate"),retMap.get("endDate"),retMap.get("session_id"));
+		graphModels = gs.packetGraphLastSevenDays(retMap.get("startDate"),retMap.get("session_id"));
 	    HttpHeaders httpHeaders = new HttpHeaders();
 	    return new ResponseEntity<List<GraphModel>>(graphModels, httpHeaders,HttpStatus.OK);
 	}
 	
 	@CrossOrigin
-	@RequestMapping(value = "/revenueGraphStartEnd", method = RequestMethod.POST)
+	@RequestMapping(value = "/revenueGraphLastSevenDays", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<List<GraphModel>> revenueGraphStartEnd(@RequestBody String json) {
+	public ResponseEntity<List<GraphModel>> revenueGraphLastSevenDays(@RequestBody String json) {
 		Map<String, String> retMap = new Gson().fromJson(json, new TypeToken<HashMap<String, Object>>() {}.getType());
 		List<GraphModel> graphModels;
-		graphModels = gs.revenueGraphStartEnd(retMap.get("startDate"),retMap.get("endDate"),retMap.get("session_id"));
+		graphModels = gs.revenueGraphLastSevenDays(retMap.get("startDate"),retMap.get("session_id"));
 	    HttpHeaders httpHeaders = new HttpHeaders();
 	    return new ResponseEntity<List<GraphModel>>(graphModels, httpHeaders,HttpStatus.OK);
 	}

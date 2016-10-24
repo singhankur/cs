@@ -12,5 +12,10 @@ public interface TransactionsRepository extends MongoRepository<Transactions, St
 
 	List<Transactions> findBySlipNumber(String slipNumber);
 	List<Transactions> findByTransactionID(String id);
+	
+	
+
+	
+	List<Transactions> findByCreatedDateStartsWith(String date);
 					   
 }

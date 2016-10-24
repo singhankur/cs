@@ -1,6 +1,7 @@
 package com.cs.rest.services;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -27,12 +28,12 @@ public class TransactionsService {
 	private KisanService kisanService;
 	@Autowired
 	private VyapariServices vyapariServices;
-	
 	@Autowired
 	AdminConstantsServices adminConstant;
-	
 	@Autowired
 	private TransactionsRepository transactionsRepository;
+	
+	
 	private static final Logger logger = LoggerFactory.getLogger(TransactionsService.class);
 	
 	public String createTransaction(TransactionsParams transaction){
@@ -249,6 +250,25 @@ public class TransactionsService {
 	public String deleteTransaction(TransactionsParams transaction) {
 		
 		return null;
+	}
+
+
+
+	public List<Transactions> getallTransaction(String date) {
+		return transactionsRepository.findByCreatedDateStartsWith(date);
+	}
+
+
+
+	public List<Transactions> getallTransactionPrevious7Days(String startDate) {
+		
+	
+		List<String> previous7Dates = DateUtility.getPrevious7DaysDate(startDate);
+		List<Transactions> all7DaysTrans = new ArrayList<>();
+		for(String days : previous7Dates ){
+			all7DaysTrans.addAll(transactionsRepository.findByCreatedDateStartsWith(days));
+		}
+		return all7DaysTrans;
 	}
 
 }
