@@ -60,7 +60,7 @@ public class DateUtility {
 		return previous7Dates;
 	}
 	public static String getDateFromDate(String createdDate) {
-		return createdDate.split(" ")[1];
+		return createdDate.split(" ")[0];
 	}
 	 
 }
