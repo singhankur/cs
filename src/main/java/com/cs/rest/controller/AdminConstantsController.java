@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cs.mongo.model.AdminConstants;
@@ -53,4 +54,60 @@ public class AdminConstantsController {
 		HttpHeaders httpHeaders = new HttpHeaders();
 		return new ResponseEntity<String>(response, httpHeaders, HttpStatus.OK);
 	}
+	
+	@CrossOrigin
+	@RequestMapping(value = "/packetInToday", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<String> packetInToday(@RequestBody String json) {
+		Map<String, String> retMap = new Gson().fromJson(json, new TypeToken<HashMap<String, Object>>() {}.getType());
+		String status = "Invalid";
+		status = adminConstantsServices.getpacketInToday(retMap.get("session_id"));
+	    HttpHeaders httpHeaders = new HttpHeaders();
+	    return new ResponseEntity<String>(status, httpHeaders,HttpStatus.OK);
+	}
+	
+	@CrossOrigin
+	@RequestMapping(value = "/packetInColdStorage", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<String> packetInColdStorage(@RequestBody String json) {
+		Map<String, String> retMap = new Gson().fromJson(json, new TypeToken<HashMap<String, Object>>() {}.getType());
+		String status = "Invalid";
+		status = adminConstantsServices.getpacketInColdStorage(retMap.get("session_id"));
+	    HttpHeaders httpHeaders = new HttpHeaders();
+	    return new ResponseEntity<String>(status, httpHeaders,HttpStatus.OK);
+	}
+	
+	@CrossOrigin
+	@RequestMapping(value = "/packetOutToday", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<String> packetOutToday(@RequestBody String json) {
+		Map<String, String> retMap = new Gson().fromJson(json, new TypeToken<HashMap<String, Object>>() {}.getType());
+		String status = "Invalid";
+		status = adminConstantsServices.getpacketOutToday(retMap.get("session_id"));
+	    HttpHeaders httpHeaders = new HttpHeaders();
+	    return new ResponseEntity<String>(status, httpHeaders,HttpStatus.OK);
+	}
+	
+	@CrossOrigin
+	@RequestMapping(value = "/packetRemainingInStorage", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<String> packetRemainingInStorage(@RequestBody String json) {
+		Map<String, String> retMap = new Gson().fromJson(json, new TypeToken<HashMap<String, Object>>() {}.getType());
+		String status = "Invalid";
+		status = adminConstantsServices.getpacketRemainingInStorage(retMap.get("session_id"));
+	    HttpHeaders httpHeaders = new HttpHeaders();
+	    return new ResponseEntity<String>(status, httpHeaders,HttpStatus.OK);
+	}
+	
+	@CrossOrigin
+	@RequestMapping(value = "/revenueForToday", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<String> revenueForToday(@RequestBody String json) {
+		Map<String, String> retMap = new Gson().fromJson(json, new TypeToken<HashMap<String, Object>>() {}.getType());
+		String status = "Invalid";
+		status = adminConstantsServices.getrevenueForToday(retMap.get("session_id"));
+	    HttpHeaders httpHeaders = new HttpHeaders();
+	    return new ResponseEntity<String>(status, httpHeaders,HttpStatus.OK);
+	}
+	
 }

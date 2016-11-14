@@ -97,6 +97,7 @@ public class GraphServices {
 	
 		
 		Map<String,Double> revenueMap = new HashMap<>();
+		
 		List<String> last7Days = DateUtility.getPrevious7DaysDate(startDate);
 		for(String day : last7Days){
 			revenueMap.put(day, 0D);

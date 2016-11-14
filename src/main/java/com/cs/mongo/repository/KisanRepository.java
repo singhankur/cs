@@ -13,7 +13,7 @@ public interface KisanRepository  extends MongoRepository<Kisan, String>{
 	 
 	
 	List<Kisan> findBySlipNumberLikeOrNameLikeOrFatherNameLikeOrMobileLikeOrAddressLike(String slipNumber, String name , String fatherName, String mobile, String address);
-	List<Kisan>  findBySlipNumberLike(String slipNumber);
+	List<Kisan> findBySlipNumberLike(String slipNumber);
 	List<Kisan> findByNameLike(String name);
 	List<Kisan> findByFatherNameLike(String fatherName);
 	List<Kisan> findByMobileLike(String mobile);
@@ -22,6 +22,5 @@ public interface KisanRepository  extends MongoRepository<Kisan, String>{
 	//IgnoreCase
 	List<Kisan> findByFatherNameLikeIgnoreCase(String fatherName);
 	List<Kisan> findByNameLikeIgnoreCase(String name);
-	
 	List<Kisan> findBySlipNumber(String slipNumber);
 }
