@@ -12,9 +12,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.cs.Constants.ApplicationConstants;
+import com.cs.mongo.model.ColdStorageProperty;
 import com.cs.mongo.model.Kisan;
 import com.cs.mongo.model.Transactions;
 import com.cs.mongo.model.Vyapari;
+import com.cs.mongo.repository.ColdStoragePropertyRepository;
 import com.cs.mongo.repository.TransactionsRepository;
 import com.cs.request.models.TransactionsParams;
 import com.cs.utility.DateUtility;
@@ -32,6 +34,9 @@ public class TransactionsService {
 	AdminConstantsServices adminConstant;
 	@Autowired
 	private TransactionsRepository transactionsRepository;
+	@Autowired
+	ColdStoragePropertyRepository csProperty;
+	
 	
 	
 	private static final Logger logger = LoggerFactory.getLogger(TransactionsService.class);
@@ -110,6 +115,36 @@ public class TransactionsService {
 		
 		
 		trans.setTransactionComplete(findIsTransactionComplete(transaction.getPacketTaken(),transaction.getAmountPaid(),transaction.getSlipNumber(), totalAmount));
+		String yearOrDate;
+		try {
+				yearOrDate = DateUtility.getDateFromDate(DateUtility.getDateWithTimeZone());
+				ColdStorageProperty csp = csProperty.findByYearorDate(yearOrDate);
+				Integer previousPacket =0;
+				
+				if(csp!=null)
+					previousPacket = csp.getRemainingPacket();
+				else{
+					csp = new ColdStorageProperty();
+					csp.setYearorDate(yearOrDate);
+				}
+				csp.setRemainingPacket(previousPacket+ trans.getPacketTaken());
+				csProperty.save(csp);
+				
+				
+			
+			
+			ColdStorageProperty newCsp = new ColdStorageProperty();
+			newCsp.setNumberOfPacket(trans.getPacketTaken());
+			newCsp.setPacketOf(trans.getSlipNumber());
+			newCsp.setTakenBy(trans.getBuyer());
+			newCsp.setYearorDate(trans.getCreatedDate());
+			csProperty.save(newCsp);
+			
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		
 		transactionsRepository.save(trans);
 	}
 

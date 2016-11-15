@@ -8,7 +8,9 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cs.mongo.model.ColdStorageProperty;
 import com.cs.mongo.model.Vyapari;
+import com.cs.mongo.repository.ColdStoragePropertyRepository;
 import com.cs.mongo.repository.VypariRepository;
 import com.cs.utility.DateUtility;
 
@@ -19,6 +21,8 @@ public class VyapariServices {
 	VypariRepository vypariRepository;
 	@Autowired
 	KisanService ks;
+	@Autowired
+	ColdStoragePropertyRepository csProperty;
 	
 	public String addvypari(Vyapari newVypari) {
 		if(newVypari.getSlipNumber().equals("slipNumber"))
@@ -49,6 +53,26 @@ public class VyapariServices {
 		vypari.setProfileType(newVypari.getProfileType());
 		vypari.setDropPricesettled(newVypari.isDropPricesettled());
 		vypari.setHavePotato(newVypari.isHavePotato());
+		
+		String yearOrDate;
+		try {
+			yearOrDate = DateUtility.getDateFromDate(DateUtility.getDateWithTimeZone());
+			ColdStorageProperty csp = csProperty.findByYearorDate(yearOrDate);
+			Integer previousPacket =0;
+			if(csp!=null)
+				previousPacket = csp.getPacketIn();
+			else{
+				csp = new ColdStorageProperty();
+				csp.setYearorDate(yearOrDate);
+			}
+			if(vypari.getNoOfPacket()!=null)
+				csp.setPacketIn(previousPacket+ Integer.parseInt(vypari.getNoOfPacket()));
+			else
+				csp.setPacketIn(previousPacket);
+			csProperty.save(csp);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 		vypariRepository.save(vypari);
 		
 		return "Vypari Added Successfully";

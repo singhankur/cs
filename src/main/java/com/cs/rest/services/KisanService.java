@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import com.cs.mongo.model.ColdStorageProperty;
 import com.cs.mongo.model.Kisan;
+import com.cs.mongo.repository.ColdStoragePropertyRepository;
 import com.cs.mongo.repository.KisanRepository;
 import com.cs.utility.DateUtility;
 
@@ -20,7 +22,7 @@ public class KisanService {
 	@Autowired
 	KisanRepository kisanRepository;
 	@Autowired
-	VyapariServices vyapariServices;
+	ColdStoragePropertyRepository csProperty;
 
 	public String addKisan(Kisan nweKisan) {
 		
@@ -48,6 +50,16 @@ public class KisanService {
 		kisan.setTypeOfPotato(nweKisan.getTypeOfPotato());
 		kisan.setProfileType(nweKisan.getProfileType());
 		kisan.setDropPricesettled(nweKisan.isDropPricesettled());
+		String yearOrDate;
+		try {
+			yearOrDate = DateUtility.getDateFromDate(DateUtility.getDateWithTimeZone());
+			ColdStorageProperty csp = csProperty.findByYearorDate(yearOrDate);
+			Integer previousPacket = csp.getPacketIn();
+			csp.setPacketIn(previousPacket+ Integer.parseInt(kisan.getNoOfPacket()));
+			csProperty.save(csp);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 		kisanRepository.save(kisan);
 		
 		return "Kisan Added Successfully";

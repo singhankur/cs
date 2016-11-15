@@ -17,7 +17,6 @@ public class AdminConstants {
 	private String storagePricePerSmallPacketKisan;
 	
 	
-	
 	public String getStoragePricePerSmallPacketVypari() {
 		return storagePricePerSmallPacketVypari;
 	}
