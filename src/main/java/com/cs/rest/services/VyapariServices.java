@@ -8,6 +8,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cs.Constants.ApplicationConstants;
 import com.cs.mongo.model.ColdStorageProperty;
 import com.cs.mongo.model.Vyapari;
 import com.cs.mongo.repository.ColdStoragePropertyRepository;
@@ -55,21 +56,31 @@ public class VyapariServices {
 		vypari.setHavePotato(newVypari.isHavePotato());
 		
 		String yearOrDate;
+		Integer previousPacket =0;
 		try {
 			yearOrDate = DateUtility.getDateFromDate(DateUtility.getDateWithTimeZone());
 			ColdStorageProperty csp = csProperty.findByYearorDate(yearOrDate);
-			Integer previousPacket =0;
+			
 			if(csp!=null)
 				previousPacket = csp.getPacketIn();
 			else{
 				csp = new ColdStorageProperty();
 				csp.setYearorDate(yearOrDate);
 			}
-			if(vypari.getNoOfPacket()!=null)
+			if(vypari.getNoOfPacket()!=null && !vypari.getNoOfPacket().equalsIgnoreCase("NA"))
 				csp.setPacketIn(previousPacket+ Integer.parseInt(vypari.getNoOfPacket()));
 			else
 				csp.setPacketIn(previousPacket);
 			csProperty.save(csp);
+			
+			ColdStorageProperty newCsp = new ColdStorageProperty();
+			newCsp.setActionPerformed(ApplicationConstants.PACKET_IN);
+			if(vypari.getNoOfPacket()!=null && !vypari.getNoOfPacket().equalsIgnoreCase("NA")){
+				newCsp.setPacketIn(Integer.parseInt(vypari.getNoOfPacket()));
+				newCsp.setYearorDate(DateUtility.getDateWithTimeZone());
+				csProperty.save(newCsp);
+			}
+			
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}

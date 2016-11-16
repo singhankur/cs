@@ -15,8 +15,16 @@ public class ColdStorageProperty {
 	private String takenBy;
 	private Integer numberOfPacket;
 	private Integer RemainingPacket;
+	private String actionPerformed;
 	
 	
+	
+	public String getActionPerformed() {
+		return actionPerformed;
+	}
+	public void setActionPerformed(String actionPerformed) {
+		this.actionPerformed = actionPerformed;
+	}
 	public String getYearorDate() {
 		return yearorDate;
 	}

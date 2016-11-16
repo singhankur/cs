@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.cs.Constants.ApplicationConstants;
 import com.cs.mongo.model.AdminConstants;
 import com.cs.mongo.model.ColdStorageProperty;
 import com.cs.mongo.model.Transactions;
@@ -35,45 +37,51 @@ public class AdminConstantsServices {
 	public List<AdminConstants> getAllAdminConstant() {
 		
 		List<AdminConstants> allApplicationConstant = adminConstantsRepository.findAll();
-		/*Map<String, AdminConstants> yearWiseApplicatinconstat = new HashMap<>();
-		
-		for (AdminConstants adminConstants : allApplicationConstant) {
-			yearWiseApplicatinconstat.put(adminConstants.getYear(), adminConstants);
-		}*/
 		return allApplicationConstant;
 	}
 
 	public Map<String, String> ExtraAdminConstant(String string) throws ParseException {
 		
-		String todayDate  = DateUtility.getDateWithTimeZone();
+		String todayDate  = DateUtility.getDateFromDate(DateUtility.getDateWithTimeZone());
 		
 		List<Transactions> allTransactions = transactionsService.getallTransaction(todayDate);
 		Map<String, String> result = new HashMap<>();
 		
 		
-		Integer packetIn = 0;
+		Integer packetInToday = 0;
 		Double todayRevenue = 0D;
 		Integer packetOut = 0;
 		for(Transactions t :allTransactions ){
-			packetIn += t.getPacketTaken();
 			todayRevenue += t.getAmountPaid();
 			packetOut += t.getPacketTaken();
 			
 		}
-		String yearOrDate;
+		String yearOrDate = DateUtility.getDateFromDate(DateUtility.getDateWithTimeZone());;
 		ColdStorageProperty csp = null;
-		try {
-			yearOrDate = DateUtility.getDateFromDate(DateUtility.getDateWithTimeZone());
-			 csp = csProperty.findByYearorDate(yearOrDate);
-		} catch (ParseException e) {
-			e.printStackTrace();
+		csp = csProperty.findByYearorDate(yearOrDate);
+		
+		List<ColdStorageProperty> listCsp = csProperty.findByYearorDateStartsWith(yearOrDate);
+		
+		for(ColdStorageProperty cs : listCsp){
+			if(cs.getActionPerformed().equalsIgnoreCase(ApplicationConstants.PACKET_IN))
+				packetInToday += cs.getPacketIn();
 		}
 		
-		result.put("PacketIn", packetIn.toString());
+		result.put("PacketInToday", packetInToday.toString());
 		result.put("TodayRevenue", todayRevenue.toString());
 		result.put("PacketOut", packetOut.toString());
-		result.put("RemainingPacketinClodStorage", csp.getRemainingPacket().toString());
-		result.put("PacketInColdStorage", csp.getPacketIn().toString());
+		
+		Integer packetInColdStorage=csp.getPacketIn();
+		if(packetInColdStorage==null)
+			packetInColdStorage =0;
+		
+		result.put("PacketInColdStorage",packetInColdStorage.toString());
+			
+		
+		if(csp.getRemainingPacket()!=null)
+			result.put("RemainingPacketinClodStorage", csp.getRemainingPacket().toString());
+		else
+			result.put("RemainingPacketinClodStorage", packetInColdStorage.toString());
 		
 		return result;
 	}

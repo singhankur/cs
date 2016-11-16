@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import com.cs.Constants.ApplicationConstants;
 import com.cs.mongo.model.ColdStorageProperty;
 import com.cs.mongo.model.Kisan;
 import com.cs.mongo.repository.ColdStoragePropertyRepository;
@@ -51,12 +52,26 @@ public class KisanService {
 		kisan.setProfileType(nweKisan.getProfileType());
 		kisan.setDropPricesettled(nweKisan.isDropPricesettled());
 		String yearOrDate;
+		Integer previousPacket =0;
 		try {
 			yearOrDate = DateUtility.getDateFromDate(DateUtility.getDateWithTimeZone());
 			ColdStorageProperty csp = csProperty.findByYearorDate(yearOrDate);
-			Integer previousPacket = csp.getPacketIn();
+			if(csp!=null)
+				previousPacket = csp.getPacketIn();
+			else{
+				csp = new ColdStorageProperty();
+				csp.setYearorDate(yearOrDate);
+			}
 			csp.setPacketIn(previousPacket+ Integer.parseInt(kisan.getNoOfPacket()));
+			csp.setActionPerformed(ApplicationConstants.ROOT_ACTION);
 			csProperty.save(csp);
+			
+			ColdStorageProperty newCsp = new ColdStorageProperty();
+			newCsp.setActionPerformed(ApplicationConstants.PACKET_IN);
+			newCsp.setPacketIn(Integer.parseInt(kisan.getNoOfPacket()));
+			newCsp.setYearorDate(DateUtility.getDateWithTimeZone());
+			csProperty.save(newCsp);
+			
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}

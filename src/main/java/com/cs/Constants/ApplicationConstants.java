@@ -11,4 +11,7 @@ public interface ApplicationConstants {
 	public static final String CIPHER_FEEDBACK = "MyHOmeLL";
 	public static final String CIPHER_MIDDLE_TEXT = "cc";
 	public static final String NA = "NA";
+	public static final String ROOT_ACTION = "root";
+	public static final String TRANSACTION_ACTION = "transaction";
+	public static final String PACKET_IN = "packetIn";
 }

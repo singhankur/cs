@@ -116,18 +116,25 @@ public class TransactionsService {
 		
 		trans.setTransactionComplete(findIsTransactionComplete(transaction.getPacketTaken(),transaction.getAmountPaid(),transaction.getSlipNumber(), totalAmount));
 		String yearOrDate;
+		Integer previousPacket =0;
 		try {
 				yearOrDate = DateUtility.getDateFromDate(DateUtility.getDateWithTimeZone());
 				ColdStorageProperty csp = csProperty.findByYearorDate(yearOrDate);
-				Integer previousPacket =0;
 				
-				if(csp!=null)
-					previousPacket = csp.getRemainingPacket();
+				
+				if(csp!=null){
+					if(csp.getRemainingPacket()!=null)
+						previousPacket = csp.getRemainingPacket();
+					else
+						previousPacket = csp.getPacketIn();
+					
+				}	
 				else{
 					csp = new ColdStorageProperty();
 					csp.setYearorDate(yearOrDate);
 				}
-				csp.setRemainingPacket(previousPacket+ trans.getPacketTaken());
+				csp.setRemainingPacket(previousPacket - trans.getPacketTaken());
+				csp.setActionPerformed(ApplicationConstants.ROOT_ACTION);
 				csProperty.save(csp);
 				
 				
@@ -138,6 +145,7 @@ public class TransactionsService {
 			newCsp.setPacketOf(trans.getSlipNumber());
 			newCsp.setTakenBy(trans.getBuyer());
 			newCsp.setYearorDate(trans.getCreatedDate());
+			newCsp.setActionPerformed(ApplicationConstants.TRANSACTION_ACTION);
 			csProperty.save(newCsp);
 			
 		} catch (ParseException e) {
