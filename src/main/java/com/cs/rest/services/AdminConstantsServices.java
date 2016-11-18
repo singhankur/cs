@@ -57,9 +57,10 @@ public class AdminConstantsServices {
 			
 		}
 		String yearOrDate = DateUtility.getDateFromDate(DateUtility.getDateWithTimeZone());;
+		String year = yearOrDate.split("-")[0];
 		ColdStorageProperty csp = null;
-		csp = csProperty.findByYearorDate(yearOrDate);
-		
+		csp = csProperty.findByYearorDate(year);
+		System.out.println(csp);
 		List<ColdStorageProperty> listCsp = csProperty.findByYearorDateStartsWith(yearOrDate);
 		
 		for(ColdStorageProperty cs : listCsp){
@@ -70,15 +71,16 @@ public class AdminConstantsServices {
 		result.put("PacketInToday", packetInToday.toString());
 		result.put("TodayRevenue", todayRevenue.toString());
 		result.put("PacketOut", packetOut.toString());
-		
-		Integer packetInColdStorage=csp.getPacketIn();
+		Integer packetInColdStorage =0;
+		if(csp!=null && csp.getPacketIn()!=null)
+			packetInColdStorage=csp.getPacketIn();
 		if(packetInColdStorage==null)
 			packetInColdStorage =0;
 		
 		result.put("PacketInColdStorage",packetInColdStorage.toString());
 			
 		
-		if(csp.getRemainingPacket()!=null)
+		if(csp!=null && csp.getRemainingPacket()!=null)
 			result.put("RemainingPacketinClodStorage", csp.getRemainingPacket().toString());
 		else
 			result.put("RemainingPacketinClodStorage", packetInColdStorage.toString());

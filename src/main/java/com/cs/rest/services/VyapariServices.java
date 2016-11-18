@@ -59,13 +59,14 @@ public class VyapariServices {
 		Integer previousPacket =0;
 		try {
 			yearOrDate = DateUtility.getDateFromDate(DateUtility.getDateWithTimeZone());
-			ColdStorageProperty csp = csProperty.findByYearorDate(yearOrDate);
+			String year = yearOrDate.split("-")[0];
+			ColdStorageProperty csp = csProperty.findByYearorDate(year);
 			
 			if(csp!=null)
 				previousPacket = csp.getPacketIn();
 			else{
 				csp = new ColdStorageProperty();
-				csp.setYearorDate(yearOrDate);
+				csp.setYearorDate(year);
 			}
 			if(vypari.getNoOfPacket()!=null && !vypari.getNoOfPacket().equalsIgnoreCase("NA"))
 				csp.setPacketIn(previousPacket+ Integer.parseInt(vypari.getNoOfPacket()));

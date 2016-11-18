@@ -55,12 +55,13 @@ public class KisanService {
 		Integer previousPacket =0;
 		try {
 			yearOrDate = DateUtility.getDateFromDate(DateUtility.getDateWithTimeZone());
-			ColdStorageProperty csp = csProperty.findByYearorDate(yearOrDate);
+			String year = yearOrDate.split("-")[0];
+			ColdStorageProperty csp = csProperty.findByYearorDate(year);
 			if(csp!=null)
 				previousPacket = csp.getPacketIn();
 			else{
 				csp = new ColdStorageProperty();
-				csp.setYearorDate(yearOrDate);
+				csp.setYearorDate(year);
 			}
 			csp.setPacketIn(previousPacket+ Integer.parseInt(kisan.getNoOfPacket()));
 			csp.setActionPerformed(ApplicationConstants.ROOT_ACTION);

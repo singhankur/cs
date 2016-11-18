@@ -10,7 +10,7 @@ public class ColdStorageProperty {
 	
 	@Nonnull@Id
 	private String yearorDate;
-	private Integer packetIn;
+	private Integer packetIn;  // Sum of All the Packet In 
 	private String packetOf;
 	private String takenBy;
 	private Integer numberOfPacket;
@@ -62,5 +62,12 @@ public class ColdStorageProperty {
 		RemainingPacket = remainingPacket;
 	}
 	
+
+	@Override
+	public String toString() {
+		return "yearorDate:" +  yearorDate + " packetIn:" + packetIn + " packetOf:" + packetOf + " takenBy:"+takenBy +  " numberOfPacket:" + numberOfPacket + " RemainingPacket:"
+				+RemainingPacket +" actionPerformed:"+ actionPerformed;
+
+	}
 
 }
