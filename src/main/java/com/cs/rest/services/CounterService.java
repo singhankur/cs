@@ -32,6 +32,22 @@ public class CounterService {
     	update: { $inc: { seq: 0 } },
     	new: true
 		})
+		
+		db.counters.findAndModify({
+    	query: { _id: "ledgerTransaction" },
+    	update: { $inc: { seq: 0 } },
+    	new: true
+		})
+		
+		
+		db.counters.findAndModify({
+    	query: { _id: "ledgerAccount" },
+    	update: { $inc: { seq: 0 } },
+    	new: true
+		})
+		
+		
+		
     * 
     */
   
@@ -41,5 +57,16 @@ public class CounterService {
   	_id: "transactions",
   	seq: 100
 	})
+	
+	db.counters.insert({
+  	_id: "ledgerAccount",
+  	seq: 100
+	})
+	
+	db.counters.insert({
+  	_id: "ledgerTransaction",
+  	seq: 100
+	})
+	
    */
 }

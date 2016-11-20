@@ -4,6 +4,9 @@ public interface ApplicationConstants {
 
 	public static final String KISAN = "kisan"; 
 	public static final String TRANSACTION_COLLECTION = "transactions";
+	public static final String LEDGER_ACCOUNT_COLLECTION = "ledgerAccount";
+	public static final String LEDGER_TRANSACTION_COLLECTION = "ledgerTransaction";
+
 	public static final Boolean IS_DELETED = true;
 	public static final Boolean IS_NOT_DELETED = false;
 	
