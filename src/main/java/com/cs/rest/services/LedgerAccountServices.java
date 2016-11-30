@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,11 +46,30 @@ public class LedgerAccountServices {
 
 	public List<LedgerAccount> searchLegerAccount(LedgerSearchParams ledgerSearchParams) {
 		
-		List<LedgerAccount> list1 =  ledgerAccountRepository.findByFathersNameLikeIgnoreCase(ledgerSearchParams.getFathersName());
-		List<LedgerAccount> list2 =  ledgerAccountRepository.findByNameLikeIgnoreCase(ledgerSearchParams.getName());
-		List<LedgerAccount> list3 =  ledgerAccountRepository.findByAddressLikeIgnoreCase(ledgerSearchParams.getAddress());
-		List<LedgerAccount> list4 =  ledgerAccountRepository.findByLedgeridLike(ledgerSearchParams.getLedger_id());
-		List<LedgerAccount> list5 =  ledgerAccountRepository.findByMobileLike(ledgerSearchParams.getMobile());
+		List<LedgerAccount> list1 = new ArrayList<>();
+		List<LedgerAccount> list2 = new ArrayList<>();
+		List<LedgerAccount> list3 = new ArrayList<>();
+		List<LedgerAccount> list4 = new ArrayList<>();
+		List<LedgerAccount> list5 = new ArrayList<>();
+		
+		
+		if(!StringUtils.isEmpty(ledgerSearchParams.getFathersName()))
+			list1 =  ledgerAccountRepository.findByFathersNameLikeIgnoreCase(ledgerSearchParams.getFathersName());
+		
+		if(!StringUtils.isEmpty(ledgerSearchParams.getName()))
+			list2 =  ledgerAccountRepository.findByNameLikeIgnoreCase(ledgerSearchParams.getName());
+		 
+
+		if(!StringUtils.isEmpty(ledgerSearchParams.getAddress()))
+			list3 =  ledgerAccountRepository.findByAddressLikeIgnoreCase(ledgerSearchParams.getAddress());
+		
+		if(!StringUtils.isEmpty(ledgerSearchParams.getLedger_id()))
+			list4 =  ledgerAccountRepository.findByLedgeridLike(ledgerSearchParams.getLedger_id());
+		
+		if(!StringUtils.isEmpty(ledgerSearchParams.getMobile()))
+			list5 =  ledgerAccountRepository.findByMobileLike(ledgerSearchParams.getMobile());
+		
+
 		
 		List<LedgerAccount> finalLedgerList = new ArrayList<>();
 		finalLedgerList.addAll(list1);
