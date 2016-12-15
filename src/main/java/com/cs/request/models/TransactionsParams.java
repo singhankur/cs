@@ -11,9 +11,16 @@ public class TransactionsParams {
 	private double totalWeight;
 	private String totalSmallPaket;
 	private double totalWeightAmount;
+	private double totalAmount;
 	private String fromWhichKisanSlipNumber;
 	private String session_id;
 	
+	public double getTotalAmount() {
+		return totalAmount;
+	}
+	public void setTotalAmount(double totalAmount) {
+		this.totalAmount = totalAmount;
+	}
 	
 	public String getSession_id() {
 		return session_id;

@@ -97,6 +97,7 @@ public class TransactionsService {
 		trans.setTotalSmallPacket(Integer.parseInt(transaction.getTotalSmallPaket()));
 		trans.setHaveSmallPacket(transaction.isSmallPacket());
 		trans.setSettled(dropsettled);
+		trans.setTotalAmount(transaction.getTotalAmount());
 		try {
 			trans.setCreatedDate(DateUtility.getDateWithTimeZone());
 		} catch (ParseException e) {
