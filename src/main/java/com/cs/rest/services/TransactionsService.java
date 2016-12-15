@@ -112,8 +112,8 @@ public class TransactionsService {
 		
 		
 		Double totalAmount = intermediateAmount+samllPacketAmount;
-		if(transaction.getSeller().equalsIgnoreCase("V"))
-			trans.setTotalAmount(totalAmount);
+		//if(transaction.getSeller().equalsIgnoreCase("V"))
+			//trans.setTotalAmount(totalAmount);
 		
 		
 		trans.setTransactionComplete(findIsTransactionComplete(transaction.getPacketTaken(),transaction.getAmountPaid(),transaction.getSlipNumber(), totalAmount));
