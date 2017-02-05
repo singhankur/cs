@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 import com.cs.Constants.ApplicationConstants;
 import com.cs.mongo.model.AdminConstants;
 import com.cs.mongo.model.ColdStorageProperty;
+import com.cs.mongo.model.Kisan;
 import com.cs.mongo.model.Transactions;
+import com.cs.mongo.model.Vyapari;
 import com.cs.mongo.repository.AdminConstantsRepository;
 import com.cs.mongo.repository.ColdStoragePropertyRepository;
 import com.cs.utility.DateUtility;
@@ -24,6 +26,10 @@ public class AdminConstantsServices {
 	TransactionsService transactionsService;
 	@Autowired
 	ColdStoragePropertyRepository csProperty;
+	@Autowired
+	KisanService kisanService;
+	@Autowired
+	VyapariServices vyapariServices;
 
 	public AdminConstants getAdminConstant(String year) {
 		return adminConstantsRepository.findByYear(year);
@@ -45,6 +51,8 @@ public class AdminConstantsServices {
 		String todayDate  = DateUtility.getDateFromDate(DateUtility.getDateWithTimeZone());
 		
 		List<Transactions> allTransactions = transactionsService.getallTransaction(todayDate);
+		List<Transactions> allTransactionsTillDate = transactionsService.findAllTransaction();
+		
 		Map<String, String> result = new HashMap<>();
 		
 		
@@ -55,6 +63,10 @@ public class AdminConstantsServices {
 			todayRevenue += t.getAmountPaid();
 			packetOut += t.getPacketTaken();
 			
+		}
+		Double totalRevenueInStore=0d;
+		for(Transactions tt :allTransactionsTillDate ){
+			totalRevenueInStore += tt.getAmountPaid();	
 		}
 		String yearOrDate = DateUtility.getDateFromDate(DateUtility.getDateWithTimeZone());;
 		String year = yearOrDate.split("-")[0];
@@ -71,6 +83,7 @@ public class AdminConstantsServices {
 		result.put("PacketInToday", packetInToday.toString());
 		result.put("TodayRevenue", todayRevenue.toString());
 		result.put("PacketOut", packetOut.toString());
+		result.put("totalRevenueInStore", totalRevenueInStore.toString());
 		Integer packetInColdStorage =0;
 		if(csp!=null && csp.getPacketIn()!=null)
 			packetInColdStorage=csp.getPacketIn();
@@ -86,6 +99,37 @@ public class AdminConstantsServices {
 			result.put("RemainingPacketinClodStorage", packetInColdStorage.toString());
 		
 		return result;
+	}
+
+	public String updateRacNo(String session_id, String slipNumber, String lotNumber, String type) {
+		
+		Boolean status=false;
+		
+		if(type.equalsIgnoreCase("K")){
+			Kisan k = kisanService.getKisan(slipNumber);
+			if(k!=null){
+				status=true;
+				k.setLotNumber(lotNumber);
+				kisanService.update(k);
+			}
+		}
+		
+		if(type.equalsIgnoreCase("V")){
+			Vyapari v = vyapariServices.getVypari(slipNumber);
+			if(v!=null){
+				status=true;
+				v.setLotNumber(lotNumber);
+				vyapariServices.update(v);
+			}
+				
+				
+		}
+			
+		if(status)
+			return "RAC No, Updated Successfully";
+		
+		
+		return "Invalid Slip Number";
 	}
 
 }

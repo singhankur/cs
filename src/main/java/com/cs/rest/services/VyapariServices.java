@@ -107,4 +107,8 @@ public class VyapariServices {
 		return vypariList.get(0);
 	}
 
+	public void update(Vyapari v) {
+		vypariRepository.save(v);
+	}
+
 }

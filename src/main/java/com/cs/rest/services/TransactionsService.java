@@ -315,4 +315,11 @@ public class TransactionsService {
 		return all7DaysTrans;
 	}
 
+
+
+	public List<Transactions> findAllTransaction() {
+		return transactionsRepository.findAll();
+		
+	}
+
 }

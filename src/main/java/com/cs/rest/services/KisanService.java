@@ -98,4 +98,8 @@ public class KisanService {
 				return null;
 		return kisanList.get(0);
 	}
+
+	public void update(Kisan k) {
+		kisanRepository.save(k);
+	}
 }

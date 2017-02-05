@@ -68,5 +68,15 @@ public class AdminConstantsController {
 	    return new ResponseEntity<Map<String,String>>(status, httpHeaders,HttpStatus.OK);
 	}
 	
+	@CrossOrigin
+	@RequestMapping(value = "/updateRacNo", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<String> updateRacNo(@RequestBody String json) throws ParseException {
+		Map<String, String> retMap = new Gson().fromJson(json, new TypeToken<HashMap<String, Object>>() {}.getType());
+		String status ;
+		status = adminConstantsServices.updateRacNo(retMap.get("session_id"),retMap.get("slipNumber"),retMap.get("lotNumber"),retMap.get("type"));
+	    HttpHeaders httpHeaders = new HttpHeaders();
+	    return new ResponseEntity<String>(status, httpHeaders,HttpStatus.OK);
+	}
 
 }
