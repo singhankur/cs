@@ -1,6 +1,7 @@
 package com.cs.rest.services;
 
 import java.text.ParseException;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,8 +42,17 @@ public class AdminConstantsServices {
 	}
 
 	public List<AdminConstants> getAllAdminConstant() {
-		
+		System.out.println("yshs");
 		List<AdminConstants> allApplicationConstant = adminConstantsRepository.findAll();
+		allApplicationConstant.sort(new Comparator<AdminConstants>() {
+
+			@Override
+			public int compare(AdminConstants o2, AdminConstants o1) {
+				return Integer.parseInt(o1.getYear())-Integer.parseInt(o2.getYear());
+			}
+			
+		});
+		System.out.println(allApplicationConstant);
 		return allApplicationConstant;
 	}
 

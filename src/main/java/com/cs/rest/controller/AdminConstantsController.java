@@ -69,6 +69,18 @@ public class AdminConstantsController {
 	}
 	
 	@CrossOrigin
+	@RequestMapping(value = "/ColdStorageSats", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity<Map<String,String>> ColdStorageSats() throws ParseException {
+	
+		Map<String,String> status = new HashMap<>();
+		status = adminConstantsServices.ExtraAdminConstant("in_session");
+	    HttpHeaders httpHeaders = new HttpHeaders();
+	    return new ResponseEntity<Map<String,String>>(status, httpHeaders,HttpStatus.OK);
+	}
+	
+	
+	@CrossOrigin
 	@RequestMapping(value = "/updateRacNo", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<String> updateRacNo(@RequestBody String json) throws ParseException {

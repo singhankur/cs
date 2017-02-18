@@ -21,6 +21,8 @@ public class VyapariServices {
 	@Autowired
 	VypariRepository vypariRepository;
 	@Autowired
+	private CounterService counterService;
+	@Autowired
 	KisanService ks;
 	@Autowired
 	ColdStoragePropertyRepository csProperty;
@@ -32,6 +34,10 @@ public class VyapariServices {
 
 		if(ks.searchPreviousSlipNumber(newVypari.getSlipNumber()))
 			return "Kisan Exist, Try With Differnt Slip Number";
+		
+		if(newVypari.getSlipNumber().equalsIgnoreCase("NA")){
+			newVypari.setSlipNumber("V-"+ getRandomSlipNumber());
+		}
 		
 		
 		Vyapari vypari  = new Vyapari();
@@ -90,6 +96,10 @@ public class VyapariServices {
 		return "Vypari Added Successfully";
 	}
 	
+	private String getRandomSlipNumber() {
+		return Integer.toString(counterService.getNextSequence("VypariRandomSlipNumber"));
+	}
+
 	public Set<String> getAllVypari() {
 		List<Vyapari> vypari = vypariRepository.findAll();
 		

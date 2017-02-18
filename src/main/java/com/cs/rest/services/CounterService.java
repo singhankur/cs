@@ -46,6 +46,13 @@ public class CounterService {
     	new: true
 		})
 		
+		db.counters.findAndModify({
+    	query: { _id: "VypariRandomSlipNumber" },
+    	update: { $inc: { seq: 0 } },
+    	new: true
+		})
+		
+		
 		
 		
     * 
@@ -65,6 +72,11 @@ public class CounterService {
 	
 	db.counters.insert({
   	_id: "ledgerTransaction",
+  	seq: 100
+	})
+	
+	 db.counters.insert({
+  	_id: "VypariRandomSlipNumber",
   	seq: 100
 	})
 	
