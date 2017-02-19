@@ -68,7 +68,7 @@ public class TransactionsService {
 			return "Not Enough Packet";
 		}
 		if(vv!=null){
-			if(getReaminingPacket(vv.getNoOfPacket() , transaction.getSlipNumber()) >= Integer.parseInt(transaction.getPacketTaken()))
+			if(haveReaminingPacket(vv.getNoOfPacket() , transaction.getSlipNumber(), transaction.getPacketTaken() ))
 			{
 				System.out.println("vypari");
 				Boolean dropsettled = vv.isDropPricesettled();
@@ -81,6 +81,18 @@ public class TransactionsService {
 	}
 	
 	
+
+	private boolean haveReaminingPacket(String noOfPacket, String slipNumber, String packetTaken) {
+		if(noOfPacket.equalsIgnoreCase("NA")) 
+			return true;
+		
+		if(getReaminingPacket(noOfPacket, slipNumber)>= Integer.parseInt(packetTaken))
+			 return true;
+		
+		return false;
+	}
+
+
 
 	private void saveTransaction(TransactionsParams transaction, Boolean dropsettled) {
 		logger.info(this.getClass().getName() + "@ saveTransaction");
@@ -277,6 +289,7 @@ public class TransactionsService {
 			if(t.getIsDeleted()==null || !t.getIsDeleted())
 				packetTaken += t.getPacketTaken();
 		}
+		
 		remainingPacket = Integer.parseInt(noOfPacket) - packetTaken;
 		return remainingPacket;
 	}
