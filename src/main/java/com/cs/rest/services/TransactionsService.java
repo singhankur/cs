@@ -217,7 +217,10 @@ public class TransactionsService {
 		Calendar now = Calendar.getInstance();   // Gets the current date and time
 		int year = now.get(Calendar.YEAR); 
 		Double intermediateAmount = 0D;
+		if(smallPacket.equalsIgnoreCase("NA"))
+			smallPacket="0";
 		if(seller.equalsIgnoreCase("K")){
+			
 			intermediateAmount = Double.parseDouble(adminConstant.getAdminConstant(String.valueOf(year)).getStoragePricePerSmallPacketKisan()) * Integer.parseInt(smallPacket);
 			}
 			
