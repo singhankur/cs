@@ -68,7 +68,7 @@ public class TransactionsService {
 			return "Not Enough Packet";
 		}
 		if(vv!=null){
-			if(haveReaminingPacket(vv.getNoOfPacket() , transaction.getSlipNumber(), transaction.getPacketTaken() ,transaction.getBuyer()))
+			if(haveReaminingPacket(vv.getNoOfPacket() , transaction.getSlipNumber(), transaction.getPacketTaken() ,transaction.getFromWhichKisanSlipNumber()))
 			{
 				System.out.println("vypari");
 				Boolean dropsettled = vv.isDropPricesettled();
@@ -82,11 +82,12 @@ public class TransactionsService {
 	
 	
 
-	private boolean haveReaminingPacket(String noOfPacket, String slipNumber, String packetTaken, String buyer) {
+	private boolean haveReaminingPacket(String noOfPacket, String slipNumber, String packetTaken, String slipNumberofKsan) {
 		if(noOfPacket.equalsIgnoreCase("NA")) 
 			return true;
 		
-		if(buyer.contains("K:")) 
+		//TO:Do - can validate if kisan have enough packet to sell
+		if(isInteger(slipNumberofKsan)) 
 			return true;
 		
 		if(getReaminingPacket(noOfPacket, slipNumber)>= Integer.parseInt(packetTaken))
@@ -95,6 +96,17 @@ public class TransactionsService {
 		return false;
 	}
 
+	public static boolean isInteger(String s) {
+	    try { 
+	        Integer.parseInt(s); 
+	    } catch(NumberFormatException e) { 
+	        return false; 
+	    } catch(NullPointerException e) {
+	        return false;
+	    }
+	    // only got here if we didn't return false
+	    return true;
+	}
 
 
 	private void saveTransaction(TransactionsParams transaction, Boolean dropsettled) {
