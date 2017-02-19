@@ -268,7 +268,7 @@ public class TransactionsService {
 		int remainingPacket = 0;
 		int packetTaken = 0;
 		for(Transactions t : allTransaction){
-			if(t.getBuyer()!=null && t.getBuyer().contentEquals("K:")){
+			if(t.getBuyer()!=null && t.getBuyer().contains("K:")){
 				continue;
 			}
 			if(t.getIsDeleted()==null || !t.getIsDeleted())
