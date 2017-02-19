@@ -68,7 +68,7 @@ public class TransactionsService {
 			return "Not Enough Packet";
 		}
 		if(vv!=null){
-			if(haveReaminingPacket(vv.getNoOfPacket() , transaction.getSlipNumber(), transaction.getPacketTaken() ))
+			if(haveReaminingPacket(vv.getNoOfPacket() , transaction.getSlipNumber(), transaction.getPacketTaken() ,transaction.getBuyer()))
 			{
 				System.out.println("vypari");
 				Boolean dropsettled = vv.isDropPricesettled();
@@ -82,8 +82,11 @@ public class TransactionsService {
 	
 	
 
-	private boolean haveReaminingPacket(String noOfPacket, String slipNumber, String packetTaken) {
+	private boolean haveReaminingPacket(String noOfPacket, String slipNumber, String packetTaken, String buyer) {
 		if(noOfPacket.equalsIgnoreCase("NA")) 
+			return true;
+		
+		if(buyer.contains("K:")) 
 			return true;
 		
 		if(getReaminingPacket(noOfPacket, slipNumber)>= Integer.parseInt(packetTaken))
