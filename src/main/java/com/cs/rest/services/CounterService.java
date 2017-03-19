@@ -97,5 +97,7 @@ public class CounterService {
   	seq: 3
 	})
 	
+	db.counters.update({   _id: "timeOutInMinutes"}, {"seq" : "1"});
+	
    */
 }
