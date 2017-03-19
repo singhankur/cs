@@ -31,12 +31,16 @@ public class LoginStatusServices {
 	}
 
 	public LoginStatus getAllSession(String session_id) {
-		String userName = session_id.split("@")[1];
+		int index = session_id.lastIndexOf("@");
+		String userName = session_id.substring(index+1);
+		System.out.println(userName);
 		return loginStatusRepository.findByUserName(userName);
 	}
 
 	public void removeSession(String session_id) {
-		String userName = session_id.split("@")[1];
+		int index = session_id.lastIndexOf("@");
+		String userName = session_id.substring(index+1);
+		System.out.println(userName);
 		loginStatusRepository.delete(userName);		
 	}
 
