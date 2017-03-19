@@ -27,6 +27,8 @@ public class SessionManagementService {
 	private UserServices userServices;
 	@Autowired
 	private LoginStatusServices loginStatusServices;
+	@Autowired
+	private CounterService counterService;
 
 	public String getNewSession(LoginParams loginParams) {
 		
@@ -107,7 +109,13 @@ public class SessionManagementService {
 		// Checking Time Pass
 		long timediff = DateUtility.getTimeDiff(loginSession.getCreatedDate());
 			//if Greater then 5 min logout
-		if(timediff>2){
+		
+		Integer timediffs = counterService.getTimeOut();
+		if(!(timediffs!=null && timediffs !=0) )
+			timediffs=2;
+		System.out.println(timediffs + "TIME OUT SET");
+		
+		if(timediff>timediffs){
 			logoutAndDelete(session_id);
 			return Status.sessionInvalid;
 		}else if(!loginSession.getSession_id().equals(session_id)){

@@ -25,9 +25,9 @@ public class CounterService {
     return counter.getSeq();
   }
   
-  public int getCounter(String collectionName) {
+  public int getTimeOut() {
 	  Counter counter = (Counter) mongo.find(query(where("_id").is("timeOutInMinutes")),Counter.class);
-	   
+	  
 	    return counter.getSeq();
 	  }
 	  
@@ -89,7 +89,7 @@ public class CounterService {
 	
 	db.counters.insert({
   	_id: "timeOutInMinutes",
-  	seq: 100
+  	seq: 3
 	})
 	
    */
