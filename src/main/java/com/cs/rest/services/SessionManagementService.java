@@ -8,18 +8,27 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.ShortBufferException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cs.Constants.ApplicationConstants;
+import com.cs.mongo.model.LoginStatus;
 import com.cs.request.models.LoginParams;
+import com.cs.request.models.LoginResponse;
 import com.cs.utility.ColdStorageCrypter;
+import com.cs.utility.DateUtility;
 
 @Service
 public class SessionManagementService {
+	
+	@Autowired
+	private UserServices userServices;
+	@Autowired
+	private LoginStatusServices loginStatusServices;
 
 	public String getNewSession(LoginParams loginParams) {
 		
-		String userName = loginParams.getUserName();
+		String userName = loginParams.getUsername();
 		String password = loginParams.getPassword();
 		String encodingKey = ApplicationConstants.CIPHER_ENCODED_0264_KEY;
 		String initializationkey = ApplicationConstants.CIPHER_FEEDBACK;
@@ -53,6 +62,44 @@ public class SessionManagementService {
 		  }
 		  sb.delete(j, sb.length());
 		  return sb;
+	}
+	
+	public LoginResponse validateUser(LoginParams loginParams) {
+		LoginResponse response = new LoginResponse();
+		String userName = loginParams.getUsername();
+		String password = loginParams.getPassword();
+		
+		response.setMessage("Invalid UserName or Password");
+		response.setSession_id("null");
+		
+		if(userServices.validateUser(userName, password))
+		{
+			response.setMessage("Successfully Logged In");
+			StringBuilder encryptedsession =  new StringBuilder(getNewSession(loginParams));
+			response.setSession_id(encryptedsession.toString());
+			
+			//Add User To the session
+			loginStatusServices.addNewSession(loginParams,encryptedsession);
+			
+		}
+		return response;
+
+	}
+	
+	public String validateSession(String session_id){
+		
+		/*
+		 *1- Delete when Time passes 
+		 *2- if not then return False Message
+		 *3- if yes then update the session 
+		 */
+		
+		LoginStatus loginSession = loginStatusServices.getAllSession(session_id);
+		
+		//1- Checking Time Pass
+		Integer timediff = DateUtility.getTimeDiff(loginSession.getCreatedDate());
+		
+		return "Session Invalidated Please Login Again";
 	}
 
 }

@@ -62,5 +62,9 @@ public class DateUtility {
 	public static String getDateFromDate(String createdDate) {
 		return createdDate.split(" ")[0];
 	}
+	public static Integer getTimeDiff(String createdDate) {
+		
+		return null;
+	}
 	 
 }

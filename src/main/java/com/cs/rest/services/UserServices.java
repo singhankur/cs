@@ -39,5 +39,17 @@ public class UserServices {
 		 return "User Deleted Successfully";
 	}
 	
+	public Boolean validateUser(String userName, String password) {
+		AdminUser adminUser = userRepo.findByUserName(userName);
+		if(adminUser==null)
+			return Boolean.FALSE;
+		
+		if(password.equals(adminUser.getPassword()))
+			return Boolean.TRUE;
+		
+		 return Boolean.FALSE;
+	}
+	
+	
 
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cs.request.models.LoginParams;
+import com.cs.request.models.LoginResponse;
 import com.cs.rest.services.SessionManagementService;
 
 @CrossOrigin
@@ -22,10 +23,10 @@ public class LoginController {
 	SessionManagementService sessionMangement;
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public ResponseEntity<String>  adminLogin (@RequestBody LoginParams lp) 
+	public ResponseEntity<LoginResponse>  adminLogin (@RequestBody LoginParams lp) 
 					throws MessagingException {
-		String session = sessionMangement.getNewSession(lp);
+		LoginResponse responseParams = sessionMangement.validateUser(lp);
 		  HttpHeaders httpHeaders = new HttpHeaders();
-		  return new ResponseEntity<String>(session, httpHeaders,HttpStatus.OK);
+		  return new ResponseEntity<LoginResponse>(responseParams, httpHeaders,HttpStatus.OK);
 	}
 }
