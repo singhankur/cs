@@ -25,6 +25,9 @@ public class CounterService {
     return counter.getSeq();
   }
   
+  
+	  
+  
    /* For Increase of Counters 
     * 
     * db.counters.findAndModify({
@@ -77,6 +80,11 @@ public class CounterService {
 	
 	 db.counters.insert({
   	_id: "VypariRandomSlipNumber",
+  	seq: 100
+	})
+	
+	db.counters.insert({
+  	_id: "timeOutInMinutes",
   	seq: 100
 	})
 	

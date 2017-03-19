@@ -8,6 +8,7 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.ShortBufferException;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -98,17 +99,21 @@ public class SessionManagementService {
 		LoginStatus loginSession = loginStatusServices.getAllSession(session_id);
 		
 		//Check Session Exists
-		if(loginSession==null)
+		if(StringUtils.isEmpty(session_id) || !session_id.contains("@"))
 			return Status.sessionInvalid;
 		
 		
 		// Checking Time Pass
 		long timediff = DateUtility.getTimeDiff(loginSession.getCreatedDate());
 			//if Greater then 5 min logout
-		if(timediff>6){
+		if(timediff>2){
 			logoutAndDelete(session_id);
 			return Status.sessionInvalid;
-		}else{
+		}else if(!loginSession.getSession_id().equals(session_id)){
+			logoutAndDelete(session_id);
+			return Status.sessionInvalid;
+		}
+		else{
 			loginStatusServices.updateSession(session_id);
 			return "sessionUpdated";
 		}
