@@ -107,12 +107,16 @@ public class SessionManagementService {
 		if(loginSession==null)
 			return Status.sessionInvalid;
 		// Checking Time Pass
+		
+		
 		long timediff = DateUtility.getTimeDiff(loginSession.getCreatedDate());
 			//if Greater then 5 min logout
 		
 		Integer timediffs = counterService.getTimeOut();
 		if(!(timediffs!=null && timediffs !=0) )
 			timediffs=2;
+		
+		//Final TimeOut Set
 		System.out.println(timediffs + "TIME OUT SET");
 		
 		if(timediff>timediffs){

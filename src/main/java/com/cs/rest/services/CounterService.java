@@ -4,6 +4,8 @@ import static org.springframework.data.mongodb.core.FindAndModifyOptions.options
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 import static org.springframework.data.mongodb.core.query.Query.query;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Update;
@@ -26,9 +28,12 @@ public class CounterService {
   }
   
   public int getTimeOut() {
-	  Counter counter = (Counter) mongo.find(query(where("_id").is("timeOutInMinutes")),Counter.class);
-	  
-	    return counter.getSeq();
+	  List<Counter> counterlist =  mongo.find(query(where("_id").is("timeOutInMinutes")),Counter.class);
+	  int timeOut =0;
+	  for(Counter c : counterlist)
+		  timeOut = c.getSeq();
+	
+	  return  timeOut;
 	  }
 	  
   
