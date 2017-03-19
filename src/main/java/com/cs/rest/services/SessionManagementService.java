@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cs.Constants.ApplicationConstants;
+import com.cs.Constants.Status;
 import com.cs.mongo.model.LoginStatus;
 import com.cs.request.models.LoginParams;
 import com.cs.request.models.LoginResponse;
@@ -96,10 +97,26 @@ public class SessionManagementService {
 		
 		LoginStatus loginSession = loginStatusServices.getAllSession(session_id);
 		
-		//1- Checking Time Pass
-		Integer timediff = DateUtility.getTimeDiff(loginSession.getCreatedDate());
+		//Check Session Exists
+		if(loginSession==null)
+			return Status.sessionInvalid;
 		
-		return "Session Invalidated Please Login Again";
+		
+		// Checking Time Pass
+		long timediff = DateUtility.getTimeDiff(loginSession.getCreatedDate());
+			//if Greater then 5 min logout
+		if(timediff>6){
+			logoutAndDelete(session_id);
+			return Status.sessionInvalid;
+		}else{
+			loginStatusServices.updateSession(session_id);
+			return "sessionUpdated";
+		}
+	}
+
+	private void logoutAndDelete(String session_id) {
+		loginStatusServices.removeSession(session_id);
+		
 	}
 
 }

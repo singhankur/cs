@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cs.Constants.Status;
 import com.cs.rest.services.GraphServices;
+import com.cs.rest.services.SessionManagementService;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -25,6 +27,8 @@ public class GraphController {
 	
 	@Autowired
 	GraphServices gs;
+	@Autowired
+	private SessionManagementService sessionManagementService;
 
 	
 	@CrossOrigin
@@ -33,8 +37,13 @@ public class GraphController {
 	public ResponseEntity<List<Map<String,String>>> packetGraphPerDay(@RequestBody String json) {
 		Map<String, String> retMap = new Gson().fromJson(json, new TypeToken<HashMap<String, Object>>() {}.getType());
 		List<Map<String,String>> graphModels;
-		graphModels = gs.packetGraphPerDay(retMap.get("startDate"),retMap.get("session_id"));
 	    HttpHeaders httpHeaders = new HttpHeaders();
+
+		String sessionResponse = sessionManagementService.validateSession(retMap.get("session_id"));
+    	if(sessionResponse.equalsIgnoreCase(Status.sessionInvalid))
+    	    return new ResponseEntity<List<Map<String,String>>>(null, httpHeaders,HttpStatus.UNAUTHORIZED);
+		
+		graphModels = gs.packetGraphPerDay(retMap.get("startDate"),retMap.get("session_id"));
 	    return new ResponseEntity<List<Map<String,String>>>(graphModels, httpHeaders,HttpStatus.OK);
 	}
 	
@@ -44,8 +53,14 @@ public class GraphController {
 	public ResponseEntity<List<Map<String,String>>> revenueGraphPerDay(@RequestBody String json) {
 		Map<String, String> retMap = new Gson().fromJson(json, new TypeToken<HashMap<String, Object>>() {}.getType());
 		List<Map<String,String>> graphModels;
-		graphModels = gs.revenueGraphPerDay(retMap.get("startDate"),retMap.get("session_id"));
 	    HttpHeaders httpHeaders = new HttpHeaders();
+
+		String sessionResponse = sessionManagementService.validateSession(retMap.get("session_id"));
+    	if(sessionResponse.equalsIgnoreCase(Status.sessionInvalid))
+    	    return new ResponseEntity<List<Map<String,String>>>(null, httpHeaders,HttpStatus.UNAUTHORIZED);
+		
+    	
+		graphModels = gs.revenueGraphPerDay(retMap.get("startDate"),retMap.get("session_id"));
 	    return new ResponseEntity<List<Map<String,String>>>(graphModels, httpHeaders,HttpStatus.OK);
 	}
 	
@@ -56,8 +71,13 @@ public class GraphController {
 	public ResponseEntity<List<Map<String,String>>> packetGraphLastSevenDays(@RequestBody String json) {
 		Map<String, String> retMap = new Gson().fromJson(json, new TypeToken<HashMap<String, Object>>() {}.getType());
 		List<Map<String,String>> graphModels;
+		 HttpHeaders httpHeaders = new HttpHeaders();
+		 String sessionResponse = sessionManagementService.validateSession(retMap.get("session_id"));
+	    	if(sessionResponse.equalsIgnoreCase(Status.sessionInvalid))
+	    	    return new ResponseEntity<List<Map<String,String>>>(null, httpHeaders,HttpStatus.UNAUTHORIZED);
+			
 		graphModels = gs.packetGraphLastSevenDays(retMap.get("startDate"),retMap.get("session_id"));
-	    HttpHeaders httpHeaders = new HttpHeaders();
+	   
 	    return new ResponseEntity<List<Map<String,String>>>(graphModels, httpHeaders,HttpStatus.OK);
 	}
 	
@@ -67,8 +87,15 @@ public class GraphController {
 	public ResponseEntity<List<Map<String,String>>> revenueGraphLastSevenDays(@RequestBody String json) {
 		Map<String, String> retMap = new Gson().fromJson(json, new TypeToken<HashMap<String, Object>>() {}.getType());
 		List<Map<String,String>> graphModels;
+		 HttpHeaders httpHeaders = new HttpHeaders();
+		 
+		 String sessionResponse = sessionManagementService.validateSession(retMap.get("session_id"));
+	    	if(sessionResponse.equalsIgnoreCase(Status.sessionInvalid))
+	    	    return new ResponseEntity<List<Map<String,String>>>(null, httpHeaders,HttpStatus.UNAUTHORIZED);
+			
+	    	
 		graphModels = gs.revenueGraphLastSevenDays(retMap.get("startDate"),retMap.get("session_id"));
-	    HttpHeaders httpHeaders = new HttpHeaders();
+	   
 	    return new ResponseEntity<List<Map<String,String>>>(graphModels, httpHeaders,HttpStatus.OK);
 	}
 	

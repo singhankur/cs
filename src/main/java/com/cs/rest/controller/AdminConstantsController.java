@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cs.Constants.Status;
 import com.cs.mongo.model.AdminConstants;
 import com.cs.rest.services.AdminConstantsServices;
+import com.cs.rest.services.SessionManagementService;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -28,6 +30,8 @@ public class AdminConstantsController {
 	@Autowired
 	AdminConstantsServices adminConstantsServices;
 	AdminConstants adminConstants;
+	@Autowired
+	private SessionManagementService sessionManagementService;
 
 	@CrossOrigin
 	@RequestMapping(value = "/getAdminConstant", method = RequestMethod.POST)
@@ -63,8 +67,13 @@ public class AdminConstantsController {
 	public ResponseEntity<Map<String,String>> ExtraAdminConstant(@RequestBody String json) throws ParseException {
 		Map<String, String> retMap = new Gson().fromJson(json, new TypeToken<HashMap<String, Object>>() {}.getType());
 		Map<String,String> status = new HashMap<>();
+		 HttpHeaders httpHeaders = new HttpHeaders();
+		String sessionResponse = sessionManagementService.validateSession(retMap.get("session_id"));
+    	if(sessionResponse.equalsIgnoreCase(Status.sessionInvalid))
+    	    return new ResponseEntity<Map<String,String>>(null, httpHeaders,HttpStatus.UNAUTHORIZED);
+		
 		status = adminConstantsServices.ExtraAdminConstant(retMap.get("session_id"));
-	    HttpHeaders httpHeaders = new HttpHeaders();
+	   
 	    return new ResponseEntity<Map<String,String>>(status, httpHeaders,HttpStatus.OK);
 	}
 	
@@ -86,8 +95,14 @@ public class AdminConstantsController {
 	public ResponseEntity<String> updateRacNo(@RequestBody String json) throws ParseException {
 		Map<String, String> retMap = new Gson().fromJson(json, new TypeToken<HashMap<String, Object>>() {}.getType());
 		String status ;
+		  HttpHeaders httpHeaders = new HttpHeaders();
+		String sessionResponse = sessionManagementService.validateSession(retMap.get("session_id"));
+    	if(sessionResponse.equalsIgnoreCase(Status.sessionInvalid))
+    	    return new ResponseEntity<String>(Status.sessionInvalid, httpHeaders,HttpStatus.UNAUTHORIZED);
+		
+    	
 		status = adminConstantsServices.updateRacNo(retMap.get("session_id"),retMap.get("slipNumber"),retMap.get("lotNumber"),retMap.get("type"));
-	    HttpHeaders httpHeaders = new HttpHeaders();
+	 
 	    return new ResponseEntity<String>(status, httpHeaders,HttpStatus.OK);
 	}
 

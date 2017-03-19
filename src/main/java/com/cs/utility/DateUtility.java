@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 
 public class DateUtility {
 	
@@ -20,6 +21,7 @@ public class DateUtility {
 	    System.out.println(dateString);
 	    return dateString;
 	}
+	
 	public static void main(String[] args) {
 		try {
 			getDateWithTimeZone();
@@ -28,8 +30,9 @@ public class DateUtility {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		getPrevious7DaysDate("2016-10-24");
+		System.out.println(getTimeDiff("2017-03-19 12:52:20.477"));
+
 	}
 	
 	public static String getHoursFromDate(String dateString){
@@ -62,9 +65,19 @@ public class DateUtility {
 	public static String getDateFromDate(String createdDate) {
 		return createdDate.split(" ")[0];
 	}
-	public static Integer getTimeDiff(String createdDate) {
-		
-		return null;
+	public static long getTimeDiff(String createdDate) {
+		DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+		long diffInMinutes =0;
+		try {
+			String currentTime = getDateWithTimeZone();
+			Date current = sdf.parse(currentTime);
+			Date previous = sdf.parse(createdDate);
+			long duration  = current.getTime() - previous.getTime();
+			diffInMinutes = TimeUnit.MILLISECONDS.toMinutes(duration);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return diffInMinutes;
 	}
 	 
 }

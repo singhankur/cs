@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cs.Constants.Status;
 import com.cs.mongo.model.User;
 import com.cs.request.models.SearchParams;
 import com.cs.rest.services.SearchServices;
+import com.cs.rest.services.SessionManagementService;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -29,16 +31,23 @@ public class SearchController {
 
 	@Autowired
 	SearchServices searchServices;
+	@Autowired
+	private SessionManagementService sessionManagementService;
 	
 	List<SearchParams> searchResult ;
 	List<User> profiles ;
 	
 	@RequestMapping(value = "/search", method = RequestMethod.POST)
 	public ResponseEntity<List<SearchParams>> search(@RequestBody SearchParams searchParams) {
+	    HttpHeaders httpHeaders = new HttpHeaders();
 	    if (searchParams != null) {
+	    	String sessionResponse = sessionManagementService.validateSession(searchParams.getSession_id());
+	    	if(sessionResponse.equalsIgnoreCase(Status.sessionInvalid))
+	    	    return new ResponseEntity<List<SearchParams>>(searchResult, httpHeaders,HttpStatus.UNAUTHORIZED);
+			
 	    	searchResult = searchServices.search(searchParams);
 	    }
-	    HttpHeaders httpHeaders = new HttpHeaders();
+	
 	    return new ResponseEntity<List<SearchParams>>(searchResult, httpHeaders,HttpStatus.OK);
 	}
 	
@@ -48,9 +57,14 @@ public class SearchController {
 	public ResponseEntity<List<User>> getTest(@RequestBody String json) {
 	
 		Map<String, String> retMap = new Gson().fromJson(json, new TypeToken<HashMap<String, Object>>() {}.getType());
-
+		 HttpHeaders httpHeaders = new HttpHeaders();
+		String sessionResponse = sessionManagementService.validateSession(retMap.get("session_id"));
+    	if(sessionResponse.equalsIgnoreCase(Status.sessionInvalid))
+    	    return new ResponseEntity<List<User>>(profiles, httpHeaders,HttpStatus.UNAUTHORIZED);
+		
+    	
 		profiles = searchServices.searchProfiles(retMap.get("slipNumber"),retMap.get("session_id"));
-	    HttpHeaders httpHeaders = new HttpHeaders();
+	   
 	 
 	    return new ResponseEntity<List<User>>(profiles, httpHeaders,HttpStatus.OK);
 	}

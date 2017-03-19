@@ -34,6 +34,22 @@ public class LoginStatusServices {
 		String userName = session_id.split("@")[1];
 		return loginStatusRepository.findByUserName(userName);
 	}
+
+	public void removeSession(String session_id) {
+		String userName = session_id.split("@")[1];
+		loginStatusRepository.delete(userName);		
+	}
+
+	public void updateSession(String session_id) {
+		 LoginStatus loginCurrentStatus = getAllSession( session_id);
+		 try {
+			loginCurrentStatus.setCreatedDate(DateUtility.getDateWithTimeZone());
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		 loginStatusRepository.save(loginCurrentStatus);
+	}
 	
 	
 }

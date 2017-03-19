@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cs.Constants.Status;
 import com.cs.mongo.model.Transactions;
 import com.cs.request.models.TransactionsParams;
+import com.cs.rest.services.SessionManagementService;
 import com.cs.rest.services.TransactionsService;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -28,6 +30,9 @@ public class TransactionsController {
 
 	@Autowired
 	TransactionsService transactionsService;
+	@Autowired
+	private SessionManagementService sessionManagementService;
+	
 	private static final Logger logger = LoggerFactory.getLogger(TransactionsController.class);
 	
 	@CrossOrigin
@@ -35,10 +40,15 @@ public class TransactionsController {
 	public ResponseEntity<String> update(@RequestBody TransactionsParams transaction) {
 		logger.info(this.getClass().getName() + "@M update ");
 		String sttus = "Invalid";
+		HttpHeaders httpHeaders = new HttpHeaders();
 		if (transaction != null) {
+			String sessionResponse = sessionManagementService.validateSession(transaction.getSession_id());
+	    	if(sessionResponse.equalsIgnoreCase(Status.sessionInvalid))
+	    	    return new ResponseEntity<String>(Status.sessionInvalid, httpHeaders, HttpStatus.UNAUTHORIZED);
+			
 			sttus= transactionsService.createTransaction(transaction);
 		}
-		HttpHeaders httpHeaders = new HttpHeaders();
+		
 		return new ResponseEntity<String>(sttus, httpHeaders, HttpStatus.OK);
 	}
 	
@@ -46,10 +56,14 @@ public class TransactionsController {
 	@RequestMapping(value = "/deleteTransaction", method = RequestMethod.POST)
 	public ResponseEntity<String> deleteTransaction(@RequestBody TransactionsParams transaction) {
 		String sttus = "Invalid";
+		HttpHeaders httpHeaders = new HttpHeaders();
 		if (transaction != null) {
+			String sessionResponse = sessionManagementService.validateSession(transaction.getSession_id());
+	    	if(sessionResponse.equalsIgnoreCase(Status.sessionInvalid))
+	    	    return new ResponseEntity<String>(Status.sessionInvalid, httpHeaders, HttpStatus.UNAUTHORIZED);
+			
 			sttus= transactionsService.deleteTransaction(transaction);
 		}
-		HttpHeaders httpHeaders = new HttpHeaders();
 		return new ResponseEntity<String>(sttus, httpHeaders, HttpStatus.OK);
 	}
 	
