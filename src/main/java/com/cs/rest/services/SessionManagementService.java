@@ -102,7 +102,8 @@ public class SessionManagementService {
 		if(StringUtils.isEmpty(session_id) || !session_id.contains("@"))
 			return Status.sessionInvalid;
 		
-		
+		if(loginSession==null)
+			return Status.sessionInvalid;
 		// Checking Time Pass
 		long timediff = DateUtility.getTimeDiff(loginSession.getCreatedDate());
 			//if Greater then 5 min logout

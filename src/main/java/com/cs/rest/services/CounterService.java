@@ -25,7 +25,11 @@ public class CounterService {
     return counter.getSeq();
   }
   
-  
+  public int getCounter(String collectionName) {
+	  Counter counter = (Counter) mongo.find(query(where("_id").is("timeOutInMinutes")),Counter.class);
+	   
+	    return counter.getSeq();
+	  }
 	  
   
    /* For Increase of Counters 
