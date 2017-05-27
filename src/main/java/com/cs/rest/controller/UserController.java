@@ -50,7 +50,9 @@ public class UserController {
 	public ResponseEntity<List<String>> getAllUser(@RequestBody String session_id) {
 		HttpHeaders httpHeaders = new HttpHeaders();
 		List<String> allUser=null;
+		System.out.println("This is session id " + session_id);
 		if (session_id != null) {
+			System.out.println("here inside iff " + session_id);
 			String sessionResponse = sessionManagementService.validateSession(session_id);
 	    	if(sessionResponse.equalsIgnoreCase(Status.sessionInvalid))
 	    	    return new ResponseEntity<List<String>>(allUser, httpHeaders,HttpStatus.UNAUTHORIZED);

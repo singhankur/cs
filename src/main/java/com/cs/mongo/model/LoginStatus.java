@@ -8,6 +8,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "loginstatus")
 public class LoginStatus {
 
+	@Override
+	public String toString() {
+		return "LoginStatus [userName=" + userName + ", password=" + password + ", session_id=" + session_id
+				+ ", status=" + status + ", createdDate=" + createdDate + "]";
+	}
 	@Nonnull@Id
 	private String userName;
 	private String password;

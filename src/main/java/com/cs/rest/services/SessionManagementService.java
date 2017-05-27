@@ -100,9 +100,14 @@ public class SessionManagementService {
 		
 		LoginStatus loginSession = loginStatusServices.getAllSession(session_id);
 		
+		System.out.println("printing all sessions " + loginSession);
+		
 		//Check Session Exists
-		if(StringUtils.isEmpty(session_id) || !session_id.contains("@"))
+		if(StringUtils.isEmpty(session_id) || !session_id.contains("@")){
+			System.out.println("Session is Tampered");
 			return Status.sessionInvalid;
+		}
+			
 		
 		if(loginSession==null)
 			return Status.sessionInvalid;
@@ -121,8 +126,10 @@ public class SessionManagementService {
 		
 		if(timediff>timediffs){
 			logoutAndDelete(session_id);
+			System.out.println("Session will be deleted coz of TimeOut");
 			return Status.sessionInvalid;
 		}else if(!loginSession.getSession_id().equals(session_id)){
+			System.out.println("Session will be deleted coz of tampered sessionId");
 			logoutAndDelete(session_id);
 			return Status.sessionInvalid;
 		}
