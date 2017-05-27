@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cs.Constants.Status;
 import com.cs.mongo.model.AdminUser;
+import com.cs.mongo.model.SessionClass;
 import com.cs.rest.services.SessionManagementService;
 import com.cs.rest.services.UserServices;
 import com.google.gson.Gson;
@@ -47,16 +48,15 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/getAllUser", method = RequestMethod.POST)
-	public ResponseEntity<List<String>> getAllUser(@RequestBody String session_id) {
+	public ResponseEntity<List<String>> getAllUser(@RequestBody SessionClass session) {
 		HttpHeaders httpHeaders = new HttpHeaders();
 		List<String> allUser=null;
-		System.out.println("This is session id " + session_id);
-		if (session_id != null) {
-			System.out.println("here inside iff " + session_id);
-			String sessionResponse = sessionManagementService.validateSession(session_id);
+		System.out.println("This is session id " + session.getSession_id());
+		if (session.getSession_id() != null) {
+			String sessionResponse = sessionManagementService.validateSession(session.getSession_id());
 	    	if(sessionResponse.equalsIgnoreCase(Status.sessionInvalid))
 	    	    return new ResponseEntity<List<String>>(allUser, httpHeaders,HttpStatus.UNAUTHORIZED);
-			allUser = us.getAllUser(session_id);
+			allUser = us.getAllUser(session.getSession_id());
 	    }
 	 
 	    return new ResponseEntity<List<String>>(allUser, httpHeaders,HttpStatus.OK);
