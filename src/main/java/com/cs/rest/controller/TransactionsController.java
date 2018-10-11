@@ -30,6 +30,7 @@ public class TransactionsController {
 
 	@Autowired
 	TransactionsService transactionsService;
+
 	@Autowired
 	private SessionManagementService sessionManagementService;
 	

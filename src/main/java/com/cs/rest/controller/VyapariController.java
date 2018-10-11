@@ -19,32 +19,29 @@ import com.cs.rest.services.VyapariServices;
 
 @RestController
 public class VyapariController {
-
-	
-
 	@Autowired
 	VyapariServices vyapariServices;
 	@Autowired
 	private SessionManagementService sessionManagementService;
 	
-			@CrossOrigin
-			@RequestMapping(value = "/createVyapari", method = RequestMethod.POST)
-			public ResponseEntity<String> update(@RequestBody Vyapari vyapari) {
-				String sttus = "Invalid";
-				HttpHeaders httpHeaders = new HttpHeaders();
-			    if (vyapari != null) {
-			    	String sessionResponse = sessionManagementService.validateSession(vyapari.getSession_id());
-			    	if(sessionResponse.equalsIgnoreCase(Status.sessionInvalid))
-			    		 return new ResponseEntity<String>(Status.sessionInvalid, httpHeaders,HttpStatus.UNAUTHORIZED);
-			    	sttus = vyapariServices.addvypari(vyapari);
-			    }
-			  
-			    return new ResponseEntity<String>(sttus, httpHeaders,HttpStatus.OK);
-			}
-			
-			@CrossOrigin
-			@RequestMapping(value = "/getEnlistedVyaparis", method = RequestMethod.GET)
-			public Set<String>  getEnlistedVyaparis() {
+	@CrossOrigin
+	@RequestMapping(value = "/createVyapari", method = RequestMethod.POST)
+	public ResponseEntity<String> update(@RequestBody Vyapari vyapari) {
+		String sttus = "Invalid";
+		HttpHeaders httpHeaders = new HttpHeaders();
+		if (vyapari != null) {
+			String sessionResponse = sessionManagementService.validateSession(vyapari.getSession_id());
+			if(sessionResponse.equalsIgnoreCase(Status.sessionInvalid))
+				 return new ResponseEntity<String>(Status.sessionInvalid, httpHeaders,HttpStatus.UNAUTHORIZED);
+			sttus = vyapariServices.addvypari(vyapari);
+		}
+
+		return new ResponseEntity<String>(sttus, httpHeaders,HttpStatus.OK);
+	}
+
+	@CrossOrigin
+	@RequestMapping(value = "/getEnlistedVyaparis", method = RequestMethod.GET)
+	public Set<String>  getEnlistedVyaparis() {
 			    return vyapariServices.getAllVypari();
 			}
 			

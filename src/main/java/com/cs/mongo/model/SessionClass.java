@@ -10,5 +10,4 @@ public class SessionClass {
 	public void setSession_id(String session_id) {
 		this.session_id = session_id;
 	}
-	
 }
