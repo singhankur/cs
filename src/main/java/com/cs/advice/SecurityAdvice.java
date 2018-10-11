@@ -12,6 +12,5 @@ public class SecurityAdvice {
 	private boolean checkAuthentication(){
 		System.out.println("Before Running");
 		return true;
-		
 	}
 }
